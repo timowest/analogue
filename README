@@ -1,0 +1,22 @@
+Analogue synth by Timo Westkämper
+
+ 2 * LFO
+ 2 * OSC
+ 1 * Noise
+ 2 * FILTER (incl ENV)
+ 2 * AMP (invl ENV)
+
+CONTENT
+
+analogue.dsp - main DSP script
+amps.dsp - amplifier definitions
+env.dsp - ADSR envelope definitions
+filters.dsp - filter definitions
+midi.dsp - MIDI controls
+oscillators.dsp - oscillators
+utils.dsp - various utilities
+
+simple.dsp - simple version for testing
+standalone.dsp - standalone version
+oscdemo.dsp - standalone oscillator
+

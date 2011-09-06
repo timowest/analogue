@@ -1,0 +1,14 @@
+* Distortion in filters
+
+* Sawtooth width
+
+* Sub oscillation ?!?
+
+* LV2 integration
+ * polyphonic voices
+ * monophonic LFOs
+ * stereo effects
+
+* Ring modulation : osc1 > osc2
+
+* Envelope slope : Linerar / Exponential
