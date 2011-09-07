@@ -25,7 +25,7 @@ import("utils.dsp");
 // process
 
 // LFO > OSC > FILTER > AMP
-process = hgroup("simple", lfo1 <: (_,osc1) : (_,_,!) <: (_,!,filter1) : (_,_,!) : amp1);
+process = hgroup("simple", lfo1 <: (_,osc1) : (_,_+_) <: (_,!,filter1) : (_,_,!) : amp1);
 
 
 

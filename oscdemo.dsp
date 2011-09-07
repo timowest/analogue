@@ -24,6 +24,6 @@ import("utils.dsp");
 
 // process
 
-process = hgroup("simple", lfo1 : osc1 : (_,!));
+process = hgroup("simple", lfo1 : osc1 : (_+_));
 
 

@@ -17,30 +17,18 @@ import("music.lib");
 // envelopes
 // driven by gate
 
-filter1_env = vgroup("filter1_env", env(
-   hslider("filter1_env_attack", 0, 0, 4, 0.01),
-   hslider("filter1_env_decay", 1, 0, 4, 0.01),
-   hslider("filter1_env_sustain", 1, 0, 1, 0.01),
-   hslider("filter1_env_release", 1, 0, 4, 0.01)));
+filter1_env = vgroup("filter1_env", env);
 
-filter2_env = vgroup("filter2_env", env(
-   hslider("filter2_env_attack", 0, 0, 4, 0.01),
-   hslider("filter2_env_decay", 1, 0, 4, 0.01),
-   hslider("filter2_env_sustain", 1, 0, 1, 0.01),
-   hslider("filter2_env_release", 1, 0, 4, 0.01)));
+filter2_env = vgroup("filter2_env", env);
 
-amp1_env = vgroup("amp1_env", env(
-   hslider("amp1_env_attack", 0, 0, 4, 0.01),
-   hslider("amp1_env_decay", 1, 0, 4, 0.01),
-   hslider("amp1_env_sustain", 1, 0, 1, 0.01),
-   hslider("amp1_env_release", 1, 0, 4, 0.01)));
+amp1_env = vgroup("amp1_env", env);
 
-amp2_env = vgroup("amp2_env", env(
-   hslider("amp2_env_attack", 0, 0, 4, 0.01),
-   hslider("amp2_env_decay", 1, 0, 4, 0.01),
-   hslider("amp2_env_sustain", 1, 0, 1, 0.01),
-   hslider("amp2_env_release", 1, 0, 4, 0.01)));
+amp2_env = vgroup("amp2_env", env);
 
 // helpers
 
-env(a, d, s, r) = adsr(a * SR, d, s * 100, r);
+env = adsr(
+   hslider("attack", 0, 0, 4, 0.01) * SR,
+   hslider("decay", 1, 0, 4, 0.01),
+   hslider("sustain", 1, 0, 1, 0.01) * 100,
+   hslider("release", 1, 0, 4, 0.01));

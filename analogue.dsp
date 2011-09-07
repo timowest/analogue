@@ -22,8 +22,6 @@ import("utils.dsp");
 
 // Analogue Synth
 
-// process 
-
 process = (lfo1, lfo2) <: (_,_,osc1,osc2,noisegen)
     : (_,_,pre_filter_mix) // l1, l2, f1_in, f2_in
     // to filters 

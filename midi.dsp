@@ -14,8 +14,8 @@
 
 // MIDI
 
-pitch = hslider("pitch", 64, 32, 100, 1);
+pitch = hslider("/v:midi/pitch", 64, 32, 100, 1);
 
-gain = nentry("gain", 1, 0, 1, 0.01); 
+gain = nentry("/v:midi/gain", 1, 0, 1, 0.01); 
 
-gate = button("gate");
+gate = button("/v:midi/gate");

@@ -14,5 +14,11 @@ simple:
 	faust -a alsa-gtk.cpp simple.dsp > simple.cpp
 	g++ -Wall simple.cpp  $(ALSA_GTK) -lm -I/usr/local/lib/faust/ -o simple
 
+svg:
+	faust -svg analogue.dsp
+	faust -svg oscdemo.dsp
+	faust -svg standalone.dsp
+	faust -svg simple.dsp
+
 clean:
 	rm -rf *.cpp *-svg standalone oscdemo simple

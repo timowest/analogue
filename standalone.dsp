@@ -22,15 +22,13 @@ import("utils.dsp");
 
 // process
 
-process = hgroup("lfos", lfo1, lfo2) <: hgroup("generators",_,_,osc1,osc2,noisegen)
+process = (lfo1, lfo2) <: (_,_,osc1,osc2,noisegen)
     : (_,_,pre_filter_mix) // l1, l2, f1_in, f2_in
     // to filters 
-    : hgroup("filters", bus4
-      <: ((_,_,!,_), ((_,!,_,!) : filter1)) // l1, l2, f2_in, filter1, filter1_to_f2
-      <: ((_,!,!,_,!), (!,_,!,!,!), ((!,_,_,!,_) : (_,_+_) : filter2)) // l1, f1_out, l2, f2_out
-    )
+    <: ((_,_,!,_), ((_,!,_,!) : filter1)) // l1, l2, f2_in, filter1, filter1_to_f2
+    <: ((_,!,!,_,!), (!,_,!,!,!), ((!,_,_,!,_) : (_,_+_) : filter2)) // l1, f1_out, l2, f2_out
     // to amps
-    : hgroup("amps", amp1, amp2)
+    : (amp1, amp2)
     // out
     :> (_,_)
 with {
