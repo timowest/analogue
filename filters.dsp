@@ -15,19 +15,18 @@
 import("filter.lib");
 
 import("midi.dsp");
-import("env.dsp");
 import("utils.dsp");
 
 // filters
 
 // in : lfo, signal
-filter1 = vgroup("filter1", (_, (gate : filter1_env),_) : filter <: (_, to_f2 * _) )
+filter1 = vgroup("filter1", (_, (gate : env),_) : filter <: (_, to_f2 * _) )
 with {
   to_f2 = hslider("to_f2",0,0,1,0.01);
 };
 
 // in : lfo, signal
-filter2 = vgroup("filter2", (_, (gate : filter2_env),_) : filter );
+filter2 = vgroup("filter2", (_, (gate : env),_) : filter );
 
 filter(lfo, env) = reson_filter(
     type, 
@@ -57,4 +56,3 @@ with {
 
 };
 
-//process = (1,1) : filter1;

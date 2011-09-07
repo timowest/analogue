@@ -12,6 +12,8 @@
  *  GNU General Public License for more details.
  */
 
+import("music.lib");
+
 // utilities
 
 split(ratio) = _ <: ((1-ratio) * _, ratio * _);
@@ -23,11 +25,9 @@ select4(i) = select2(i > 2, select3(i, _, _, _), _);
 
 select5(i) = select2(i > 3, select4(i, _, _, _, _), _);
 
-// FIXME
 fade_in(samples, gate) = (fade(gate) ~ _) * _
 with {
-    fade(gate,x) = select2(x < 1, 1, select2(gate > 0, 0, x + step));
-    step = select2(samples > 0, 1, 1/samples);
+    fade(gate,x) = select2(x < 1, gate, select2(samples > 0, gate, x + 1/samples));
 };
 
 normalize(min_val,max_val) = max(min_val) : min(max_val);
@@ -35,3 +35,9 @@ normalize(min_val,max_val) = max(min_val) : min(max_val);
 A4 = 69.0; // 440 Hz
 
 key2hz(base_freq, x) = base_freq * pow(2.0, x / 12); 
+
+env = adsr(
+   hslider("attack", 0, 0, 4, 0.01) * SR,
+   hslider("decay", 1, 0, 4, 0.01),
+   hslider("sustain", 1, 0, 1, 0.01) * 100,
+   hslider("release", 1, 0, 4, 0.01));

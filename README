@@ -10,7 +10,6 @@ CONTENT
 
 analogue.dsp - main DSP script
 amps.dsp - amplifier definitions
-env.dsp - ADSR envelope definitions
 filters.dsp - filter definitions
 midi.dsp - MIDI controls
 oscillators.dsp - oscillators

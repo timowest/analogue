@@ -13,7 +13,6 @@
  */
 
 import("midi.dsp");
-import("env.dsp");
 import("filters.dsp");
 import("oscillators.dsp");
 import("amps.dsp");
