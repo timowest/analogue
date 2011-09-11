@@ -25,9 +25,9 @@ select4(i) = select2(i > 2, select3(i, _, _, _), _);
 
 select5(i) = select2(i > 3, select4(i, _, _, _, _), _);
 
-fade_in(samples, gate) = (fade(gate) ~ _) * _
+fade_in(samples, gate) = select2(samples > 0, gate, fade(gate) ~ _) * _
 with {
-    fade(gate,x) = select2(x < 1, gate, select2(samples > 0, gate, x + 1/samples));
+    fade(gate, x) = select2(x < 1, gate, x + (1/samples));
 };
 
 normalize(min_val,max_val) = max(min_val) : min(max_val);

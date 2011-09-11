@@ -21,7 +21,7 @@ import("utils.dsp");
 
 // process
 
-process = (lfo1, lfo2) <: (_,_,osc1,osc2,noisegen)
+process = hgroup("analogue", (lfo1, lfo2) <: (_,_,osc1,osc2,noisegen)
     : (_,_,pre_filter_mix) // l1, l2, f1_in, f2_in
     // to filters 
     <: ((_,_,!,_), ((_,!,_,!) : filter1)) // l1, l2, f2_in, filter1, filter1_to_f2
@@ -29,7 +29,7 @@ process = (lfo1, lfo2) <: (_,_,osc1,osc2,noisegen)
     // to amps
     : (amp1, amp2)
     // out
-    :> (_,_)
+    :> (_,_))
 with {
 
   // in : o11, o12, o21, o22, n1, n2

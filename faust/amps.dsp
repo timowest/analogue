@@ -39,8 +39,9 @@ with {
     kbd_to_pan = hslider("kbd_to_pan", 0, -0.1, 0.1, 0.01) * 0.1; 
     lfo_to_pan = hslider("lfo_to_pan", 0, -0.5, 0.5, 0.01);
     env_to_pan = hslider("env_to_pan", 0, -0.5, 0.5, 0.01);
-    to_stereo(pan) = _ <: (1-pan) * _, pan * _;
   };
+
+  to_stereo(pan) = _ <: (1-pan) * _, pan * _;
 
 };
 
