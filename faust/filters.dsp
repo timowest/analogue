@@ -14,21 +14,20 @@
 
 import("filter.lib");
 
-import("midi.dsp");
 import("utils.dsp");
-
+ 
 // filters
 
 // in : lfo, signal
-filter1 = vgroup("filter1", (_, (gate : env),_) : filter <: (_, to_f2 * _) )
+filter1(gate, pitch) = vgroup("filter1", (_,(gate : env),_) : filter(pitch) <: (_, to_f2 * _) )
 with {
   to_f2 = hslider("to_f2",0,0,1,0.01);
 };
 
 // in : lfo, signal
-filter2 = vgroup("filter2", (_, (gate : env),_) : filter );
+filter2(gate, pitch) = vgroup("filter2", (_,(gate : env),_) : filter(pitch) );
 
-filter(lfo, env) = reson_filter(
+filter(pitch, lfo, env) = reson_filter(
     type, 
     key2hz(cutoff, kbd_track * (pitch - A4) + lfo_to_f * lfo +  env_to_f * env), 
     q + lfo_to_q * lfo + env_to_q * env)

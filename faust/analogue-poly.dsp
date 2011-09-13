@@ -12,19 +12,20 @@
  *  GNU General Public License for more details.
  */
 
+analogue = library("analogue.dsp");
 
 // Polyphonic Analogue Synth
 
-// replace mono controls with voice controls
-voice(i) = component("analogue.dsp")[gain=poly_gain(i); gate=poly_gate(i); pitch=poly_pitch(i);]
+// TODO : render only active voices
+voice(i) = analogue.voice(gate(i), gain(i), pitch(i))
 with {
-    poly_pitch(i) = hslider("/v:midi/pitch%i", 64, 32, 100, 1);
-    poly_gain(i) = nentry("/v:midi/gain%i", 1, 0, 1, 0.01); 
-    poly_gate(i) = button("/v:midi/gate%i");
+  gate(i) = button("/h:midi/gate%i");
+  gain(i) = nentry("/h:midi/gain%i", 0, 0, 1, 0.01);
+  pitch(i) = hslider("/h:midi/pitch%i", 64, 32, 100, 1);
 };
 
 // TODO : effects
-process = par(i, 16, voice(i)) :> (_,_);
+process = par(i, 8, voice(i)) :> (_,_,_,_) :> (_,_);
 
 
 

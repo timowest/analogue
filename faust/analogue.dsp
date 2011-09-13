@@ -12,29 +12,40 @@
  *  GNU General Public License for more details.
  */
 
+import("music.lib");
+
 import("midi.dsp");
-import("filters.dsp");
-import("oscillators.dsp");
-import("amps.dsp");
+filters = library("filters.dsp");
+oscillators = library("oscillators.dsp");
+amps = library("amps.dsp");
 
 import("utils.dsp");
 
 // Analogue Synth
 
-process = (lfo1, lfo2) <: (_,_,osc1,osc2,noisegen)
+voice(gate, gain, pitch) = (lfo1, lfo2) <: (_,_,osc1,osc2,noisegen)
     : (_,_,pre_filter_mix) // l1, l2, f1_in, f2_in
     // to filters 
     <: ((_,_,!,_), ((_,!,_,!) : filter1)) // l1, l2, f2_in, filter1, filter1_to_f2
     <: ((_,!,!,_,!), (!,_,!,!,!), ((!,_,_,!,_) : (_,_+_) : filter2)) // l1, f1_out, l2, f2_out
     // to amps
     : (amp1, amp2)
-    // out
-    :> (_,_)
 with {
+  lfo1 = oscillators.lfo1(gate);
+  lfo2 = oscillators.lfo2(gate);
+  osc1 = oscillators.osc1(pitch);
+  osc2 = oscillators.osc2(pitch);
+  noisegen = oscillators.noisegen;
+  filter1 = filters.filter1(gate, pitch);
+  filter2 = filters.filter2(gate, pitch);
+  amp1 = amps.amp1(gate, gain, pitch);
+  amp2 = amps.amp2(gate, gain, pitch);
 
   // in : o11, o12, o21, o22, n1, n2
   // out : f1_in, f2_in
   pre_filter_mix = bus6 <: (((_,!,_,!,_,!) : _+_+_), ((!,_,!,_,!,_) : _+_+_));
 
 };
+
+process = voice(mono_gate, mono_gain, mono_pitch) :> (_,_);
 

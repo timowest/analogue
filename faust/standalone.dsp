@@ -12,29 +12,8 @@
  *  GNU General Public License for more details.
  */
 
-import("midi.dsp");
-import("filters.dsp");
-import("oscillators.dsp");
-import("amps.dsp");
-
-import("utils.dsp");
+analogue = library("analogue.dsp");
 
 // process
 
-process = hgroup("analogue", (lfo1, lfo2) <: (_,_,osc1,osc2,noisegen)
-    : (_,_,pre_filter_mix) // l1, l2, f1_in, f2_in
-    // to filters 
-    <: ((_,_,!,_), ((_,!,_,!) : filter1)) // l1, l2, f2_in, filter1, filter1_to_f2
-    <: ((_,!,!,_,!), (!,_,!,!,!), ((!,_,_,!,_) : (_,_+_) : filter2)) // l1, f1_out, l2, f2_out
-    // to amps
-    : (amp1, amp2)
-    // out
-    :> (_,_))
-with {
-
-  // in : o11, o12, o21, o22, n1, n2
-  // out : f1_in, f2_in
-  pre_filter_mix = bus6 <: (((_,!,_,!,_,!) : _+_+_), ((!,_,!,_,!,_) : _+_+_));
-
-};
-
+process = hgroup("analogue", analogue.process);

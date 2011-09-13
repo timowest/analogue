@@ -5,6 +5,7 @@
 
 #include <map>
 #include <string>
+//#include <iostream>
 
 class CollectorUI : public UI {    
     
@@ -26,6 +27,7 @@ class CollectorUI : public UI {
                 strcat(fullPath, "_");
             }
             strcat(fullPath, label);
+            //std::cout << fullPath << std::endl;
 
             std::string name(fullPath);
             labelToZone[name] = zone;

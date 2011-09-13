@@ -12,7 +12,7 @@
  *  GNU General Public License for more details.
  */
 
-import("music.lib");
+music = library("music.lib");
 
 // utilities
 
@@ -36,8 +36,8 @@ A4 = 69.0; // 440 Hz
 
 key2hz(base_freq, x) = base_freq * pow(2.0, x / 12); 
 
-env = adsr(
-   hslider("attack", 0, 0, 4, 0.01) * SR,
+env = music.adsr(
+   hslider("attack", 0, 0, 2, 0.005),
    hslider("decay", 1, 0, 4, 0.01),
    hslider("sustain", 1, 0, 1, 0.01) * 100,
    hslider("release", 1, 0, 4, 0.01));

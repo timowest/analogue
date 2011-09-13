@@ -13,17 +13,20 @@
  */
 
 import("oscillator.lib");
+import("music.lib");
 
 import("midi.dsp");
 import("utils.dsp");
 
 // oscillators
 
+// in : gate
 lfo1 = vgroup("lfo1", lfo);
 
+// in : gate
 lfo2 = vgroup("lfo2", lfo);
 
-lfo = oscillator(type, freq, width) : fade_in(fade_in_samples, gate) : delay(SR, delay_in_samples)
+lfo(gate) = oscillator(type, freq, width) : fade_in(fade_in_samples, gate) : delay(SR, delay_in_samples)
 with {
   type = hslider("type", 0, 0, 2, 1);
   freq = hslider("freq", 0, 1, 50, 1);
@@ -33,13 +36,13 @@ with {
 };
 
 
-// in : lfo
+// in : pitch, lfo
 osc1 = vgroup("osc1", osc_);
 
-// in : lfo
+// in : pitch, lfo
 osc2 = vgroup("osc2", osc_);
 
-osc_(lfo) = oscillator(
+osc_(pitch, lfo) = oscillator(
     type, 
     key2hz(440.0, kbd_track * (pitch - A4) + tune + finetune + lfo_to_p * lfo), 
     width + lfo_to_w * lfo : normalize(0,1)) * level
@@ -72,7 +75,8 @@ with {
 // TODO : more wavetypes
 // TODO : add sawtooth width
 oscillator(type, freq, width) = select3(type,
-  oscws(freq), // sine
+  //oscws(freq), // sine
+  osc(freq),
   sawtooth(freq), // sawtooth 
   squarewave(freq, width))
 with {

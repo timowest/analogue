@@ -13,10 +13,9 @@
  */
 
 import("midi.dsp");
-import("filters.dsp");
-import("oscillators.dsp");
-import("amps.dsp");
-
+filters = library("filters.dsp");
+oscillators = library("oscillators.dsp");
+amps = library("amps.dsp");
 import("utils.dsp");
 
 // Simplified version for testing
@@ -24,7 +23,11 @@ import("utils.dsp");
 // process
 
 // LFO > OSC > FILTER > AMP
-process = hgroup("simple", lfo1 <: (_,osc1) : (_,_+_) <: (_,!,filter1) : (_,_,!) : amp1);
-
-
+process = hgroup("simple", lfo1 <: (_,osc1) : (_,_+_) <: (_,!,filter1) : (_,_,!) : amp1)
+with {
+  lfo1 = oscillators.lfo1(mono_gate);
+  osc1 = oscillators.osc1(mono_pitch);
+  filter1 = filters.filter1(mono_gate, mono_pitch);
+  amp1 = amps.amp1(mono_gate, mono_gain, mono_pitch);
+};
 

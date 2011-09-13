@@ -12,10 +12,8 @@
  *  GNU General Public License for more details.
  */
 
-// MIDI
+analogue = library("analogue-poly.dsp");
 
-mono_pitch = hslider("/v:midi/pitch", 64, 32, 100, 1);
+// process
 
-mono_gain = nentry("/v:midi/gain", 1, 0, 1, 0.01); 
-
-mono_gate = button("/v:midi/gate");
+process = hgroup("analogue", analogue.process);

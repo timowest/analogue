@@ -1,5 +1,6 @@
 #include "Analogue.h"
 #include <iostream>
+#include <stdio.h>
 
 Analogue::Analogue(double r) : LV2::Plugin<Analogue, LV2::URIMap<true> >(p_n_ports) {
     //license notice
@@ -13,7 +14,7 @@ Analogue::Analogue(double r) : LV2::Plugin<Analogue, LV2::URIMap<true> >(p_n_por
 
     rate = r;
     m_midi_input = 0;
-    m_midi_type = Parent::uri_to_id(LV2_EVENT_URI, "http://lv2plug.in/ns/ext/midi#MidiEvent"); 
+    //m_midi_type = Parent::uri_to_id(LV2_EVENT_URI, "http://lv2plug.in/ns/ext/midi#MidiEvent"); 
 
     synthUI = new CollectorUI();
     synthUI->setOutputs(outputs);
@@ -26,10 +27,14 @@ Analogue::Analogue(double r) : LV2::Plugin<Analogue, LV2::URIMap<true> >(p_n_por
     //pitchBend = synthUI->getZone("pitchBend");
     //breathControl = synthUI->getZone("breathControl");
 
+    char buffer[10];
     for (int i = 0; i < NVOICES; i++) {
-        pitch[i] = synthUI->getZone("pitch"+i);
-        gain[i] = synthUI->getZone("gain"+i);
-        gate[i] = synthUI->getZone("gate"+i);
+        sprintf(buffer, "midi_pitch%d", i);
+        pitch[i] = synthUI->getZone(buffer);
+        sprintf(buffer, "midi_gain%d", i);
+        gain[i] = synthUI->getZone(buffer);
+        sprintf(buffer, "midi_gate%d", i);
+        gate[i] = synthUI->getZone(buffer);
     }
 
     // zones for control ports
@@ -63,7 +68,7 @@ void Analogue::setPitchBend(float value) {
 void Analogue::on(unsigned char key, unsigned char velo) { 
     std::cout << "on " << (int)key << std::endl;
     for (int i = 0; i < NVOICES; i++) {
-        if (*gate[i] == 0.0) {
+        if (*gate[i] == 0.0f) {
             *gate[i] = 1.0f;
             *pitch[i] = (float)key;
             *gain[i] = scale_midi_to_f(velo);
@@ -79,10 +84,13 @@ void Analogue::on(unsigned char key, unsigned char velo) {
 }
 
 void Analogue::off(unsigned char key, unsigned char velo) { 
-    std::cout << "off" << std::endl; 
+    std::cout << "off " << (int)key << std::endl; 
+    float fkey = (float)key;
     for (int i = 0; i < NVOICES; i++) {
-        if (*pitch[i] == (float)key) {
+        if (*pitch[i] == fkey) {
             *gate[i] = 0.0f;
+            *gain[i] = 0.0f;
+            return;
         }
     }
 }
@@ -145,33 +153,31 @@ void Analogue::handle_midi(uint32_t size, unsigned char* data) {
     //receive on all channels
     switch(data[0] & 0xf0) {
 
-        case 0x80: //note off
-            {
-                //discard invalid midi messages
+        //note off 
+        case 0x80: {
+            //discard invalid midi messages
             if (size != 3) {
                 return;
-            }                
-
-            off(data[1], data[3]);
+            }               
+            off(data[1], data[2]);
         }
         break;
 
-    case 0x90: //note on
-        {
+        //note on
+        case 0x90: {
             //discard invalid midi messages
-        if (size != 3) {
-            return;
-        }
-
-        on(data[1], data[2]);                
+            if (size != 3) {
+                return;
+            }
+            on(data[1], data[2]);                
         }
         break;
 
-        case 0xE0: //pitch bend
-        {
+        //pitch bend
+        case 0xE0: {
             //discard invalid midi messages
-        if (size != 3) {
-            return;
+            if (size != 3) {
+               return;
         }
         
                 setPitchBend(scale_pitchbend_to_f(data[1], data[2]));
