@@ -28,7 +28,7 @@ lfo2 = vgroup("lfo2", lfo);
 
 lfo(gate) = oscillator(type, freq, width) : fade_in(fade_in_samples, gate) : delay(SR, delay_in_samples)
 with {
-  type = hslider("type", 0, 0, 2, 1);
+  type = hslider("type", 0, 0, 3, 1);
   freq = hslider("freq", 0, 1, 50, 1);
   width = hslider("width", 0.5, 0.0, 1.0, 0.01);
   fade_in_samples = hslider("fade_in", 0, 0, 5, 0.01) * SR;
@@ -48,7 +48,7 @@ osc_(pitch, lfo) = oscillator(
     width + lfo_to_w * lfo : normalize(0,1)) * level
   : split(f1_to_f2)
 with {
-  type = hslider("type", 0, 0, 2, 1);
+  type = hslider("type", 0, 0, 3, 1);
   kbd_track = hslider("kbd", 1, -12, 12, 0.1);
   tune = hslider("tune", 0, -24, 24, 1);
   finetune = hslider("finetune", 0, -1, 1, 0.01);
@@ -74,11 +74,11 @@ with {
 
 // TODO : more wavetypes
 // TODO : add sawtooth width
-oscillator(type, freq, width) = select3(type,
-  //oscws(freq), // sine
+oscillator(type, freq, width) = select4(type,
   osc(freq),
   sawtooth(freq), // sawtooth 
-  squarewave(freq, width))
+  squarewave(freq, width),
+  noise)
 with {
 
   squarewave(freq, width) = 2 * pulsetrainpos(freq, width) - 1;
