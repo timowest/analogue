@@ -29,7 +29,7 @@ filter2(gate, pitch) = vgroup("filter2", (_,(gate : env),_) : filter(pitch) );
 
 filter(pitch, lfo, env) = reson_filter(
     type, 
-    key2hz(cutoff, kbd_track * (pitch - A4) + lfo_to_f * lfo +  env_to_f * env), 
+    key2hz(cutoff, kbd_track * (pitch - A4) + (lfo_to_f * lfo) +  (env_to_f * env)), 
     q + lfo_to_q * lfo + env_to_q * env)
 with {
   type = hslider("type", 0, 0, 3, 1);

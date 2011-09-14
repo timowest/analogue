@@ -19,7 +19,7 @@ AnalogueGUI.so: src/AnalogueGUI.cpp gen/Analogue.peg gen/AnalogueMeta.h
 	g++ -shared -Wall -fPIC -DPIC src/AnalogueGUI.cpp $(PAQ) $(CFLAGS) -Igen/ -o AnalogueGUI.so
 
 gen/dsp.cpp:
-	faust -vec -a minimal.cpp faust/analogue-poly.dsp > gen/dsp.cpp
+	faust -sch -fun -vec -a minimal.cpp faust/analogue-poly.dsp > gen/dsp.cpp
 
 gen/Analogue.peg:
 	lv2peg analogue.ttl gen/Analogue.peg
@@ -32,19 +32,19 @@ test: gen/Analogue.peg gen/AnalogueMeta.h gen/dsp.cpp
 	./test.out
 
 standalone: 
-	faust -vec -a alsa-gtk.cpp faust/standalone.dsp > gen/standalone.cpp
+	faust -fun -vec -a alsa-gtk.cpp faust/standalone.dsp > gen/standalone.cpp
 	g++ -Wall gen/standalone.cpp  $(ALSA_GTK) $(FAUST) $(CFLAGS) -lm -o standalone.out
 
 poly: 
-	faust -vec -a alsa-gtk.cpp faust/standalone-poly.dsp > gen/standalone-poly.cpp
+	faust -sch -fun -vec -a alsa-gtk.cpp faust/standalone-poly.dsp > gen/standalone-poly.cpp
 	g++ -Wall gen/standalone-poly.cpp  $(ALSA_GTK) $(FAUST) $(CFLAGS) -lm -o standalone-poly.out
 
 oscdemo:
-	faust -vec -a alsa-gtk.cpp faust/oscdemo.dsp > gen/oscdemo.cpp
+	faust -fun -vec -a alsa-gtk.cpp faust/oscdemo.dsp > gen/oscdemo.cpp
 	g++ -Wall gen/oscdemo.cpp  $(ALSA_GTK) $(FAUST) $(CFLAGS) -lm -o oscdemo.out
 
 simple:
-	faust -vec -a alsa-gtk.cpp faust/simple.dsp > gen/simple.cpp
+	faust -fun -vec -a alsa-gtk.cpp faust/simple.dsp > gen/simple.cpp
 	g++ -Wall gen/simple.cpp  $(ALSA_GTK) $(FAUST) $(CFLAGS) -lm -o simple.out
 
 dumpports: gen/dsp.cpp

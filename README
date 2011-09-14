@@ -19,3 +19,9 @@ simple.dsp - simple version for testing
 standalone.dsp - standalone version
 oscdemo.dsp - standalone oscillator
 
+DEPENDENCIES
+
+* FAUST 2.*
+* lv2-c++-tools
+* GTK
+* ALSA (for standalone code)

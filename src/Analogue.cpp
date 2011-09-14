@@ -14,7 +14,7 @@ Analogue::Analogue(double r) : LV2::Plugin<Analogue, LV2::URIMap<true> >(p_n_por
 
     rate = r;
     m_midi_input = 0;
-    //m_midi_type = Parent::uri_to_id(LV2_EVENT_URI, "http://lv2plug.in/ns/ext/midi#MidiEvent"); 
+    m_midi_type = Parent::uri_to_id(LV2_EVENT_URI, "http://lv2plug.in/ns/ext/midi#MidiEvent"); 
 
     synthUI = new CollectorUI();
     synthUI->setOutputs(outputs);
@@ -89,7 +89,7 @@ void Analogue::off(unsigned char key, unsigned char velo) {
     for (int i = 0; i < NVOICES; i++) {
         if (*pitch[i] == fkey) {
             *gate[i] = 0.0f;
-            *gain[i] = 0.0f;
+            //*gain[i] = 0.0f;
             return;
         }
     }

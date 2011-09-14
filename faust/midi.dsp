@@ -14,8 +14,8 @@
 
 // MIDI
 
-mono_pitch = hslider("/v:midi/pitch", 64, 32, 100, 1);
+mono_pitch = hslider("/h:midi/pitch", 64, 32, 100, 1);
 
-mono_gain = nentry("/v:midi/gain", 1, 0, 1, 0.01); 
+mono_gain = hslider("/h:midi/gain", 1, 0, 1, 0.01); 
 
-mono_gate = button("/v:midi/gate");
+mono_gate = button("/h:midi/gate");

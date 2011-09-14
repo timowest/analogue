@@ -44,7 +44,7 @@ osc2 = vgroup("osc2", osc_);
 
 osc_(pitch, lfo) = oscillator(
     type, 
-    key2hz(440.0, kbd_track * (pitch - A4) + tune + finetune + lfo_to_p * lfo), 
+    key2hz(440.0, kbd_track * (pitch - A4) + tune + finetune + (lfo_to_p * lfo)), 
     width + lfo_to_w * lfo : normalize(0,1)) * level
   : split(f1_to_f2)
 with {

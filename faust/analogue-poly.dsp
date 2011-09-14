@@ -25,7 +25,7 @@ with {
 };
 
 // TODO : effects
-process = par(i, 8, voice(i)) :> (_,_,_,_) :> (_,_);
+process = par(i, 16, voice(i)) :> (_,_,_,_) :> (_,_);
 
 
 

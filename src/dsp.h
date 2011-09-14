@@ -5,10 +5,11 @@
 #ifndef _FAUST_DSP_H
 #define _FAUST_DSP_H
 
+
 class UI {
  public:
-    UI() {	}
-    virtual ~UI() {	}
+	UI() {	}
+	virtual ~UI() {	}
     virtual void openFrameBox(const char* label) = 0;
     virtual void openTabBox(const char* label) = 0;
     virtual void openHorizontalBox(const char* label) = 0;
@@ -29,16 +30,15 @@ class UI {
 
 class dsp {
  protected:
-    int fSamplingFreq;
+	int fSamplingFreq;
  public:
-    dsp() {}
-    virtual ~dsp() {}
-
-    virtual int getNumInputs() = 0;
-    virtual int getNumOutputs() = 0;
-    virtual void buildUserInterface(UI* interface) = 0;
-    virtual void init(int samplingRate) = 0;
-    virtual void compute(int len, float** inputs, float** outputs) 	= 0;
+	dsp() {}
+	virtual ~dsp() {}
+	virtual int getNumInputs() 										= 0;
+	virtual int getNumOutputs() 									= 0;
+	virtual void buildUserInterface(UI* interface) 					= 0;
+	virtual void init(int samplingRate) 							= 0;
+ 	virtual void compute(int len, float** inputs, float** outputs) 	= 0;
 };
 
 
