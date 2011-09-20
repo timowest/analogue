@@ -11,7 +11,8 @@ Knob::Knob(float min, float max, float step) : value(0.0), min(min), max(max), s
   set_size_request(50, 50);
   range = max - min;
   sensitivity = range / step;
-  activeColor = Gdk::Color("black");
+  bgColor = Gdk::Color("black");
+  activeColor = Gdk::Color("red");
   passiveColor = Gdk::Color("gray");
 
   add_events( Gdk::EXPOSURE_MASK | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON1_MOTION_MASK);
@@ -83,21 +84,27 @@ bool Knob::on_expose_event(GdkEventExpose* event) {
     int yc = height / 2;
     double val = (value - min) / (max - min);
 
-    double radius = 15.0;
     double angle1 = 0.75 * M_PI; 
     double angle2 = (0.75 + val * 1.5) * M_PI; 
     double angle3 = 2.25  * M_PI;
 
     cr->save();
+    Gdk::Cairo::set_source_color(cr, bgColor);
+    cr->arc(xc, yc, 20.00, 0, 2.0 * M_PI);
+    cr->clip();
+    cr->paint();
+    cr->restore();
+
+    cr->save();
     Gdk::Cairo::set_source_color(cr, activeColor);
     cr->set_line_width(6.0);
-    cr->arc(xc, yc, radius, angle1, angle2);
+    cr->arc(xc, yc, 15.0, angle1, angle2);
     cr->stroke();
     cr->restore();
 
     Gdk::Cairo::set_source_color(cr, passiveColor);
     cr->set_line_width(6.0);
-    cr->arc(xc, yc, radius, angle2, angle3);
+    cr->arc(xc, yc, 15.0, angle2, angle3);
     cr->stroke();
 
   } 

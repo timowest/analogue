@@ -29,7 +29,7 @@ lfo2 = vgroup("lfo2", lfo);
 lfo(gate) = oscillator(type, freq, width) : fade_in(fade_in_samples, gate) : delay(SR, delay_in_samples)
 with {
   type = hslider("type", 0, 0, 3, 1);
-  freq = hslider("freq", 0, 1, 50, 1);
+  freq = hslider("freq", 1, 1, 50, 1);
   width = hslider("width", 0.5, 0.0, 1.0, 0.01);
   fade_in_samples = hslider("fade_in", 0, 0, 5, 0.01) * SR;
   delay_in_samples = hslider("delay", 0, 0, 1, 0.01) * SR;

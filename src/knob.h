@@ -18,7 +18,7 @@ public:
   sigc::signal<void> signal_value_changed();
 
 protected:
-  Gdk::Color activeColor, passiveColor;
+  Gdk::Color bgColor, activeColor, passiveColor;
   float value;
   float min, max, step;
   float range, sensitivity, origin_val, origin_y;
