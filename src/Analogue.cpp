@@ -95,7 +95,7 @@ void Analogue::off(unsigned char key, unsigned char velo) {
     }
 }
 
-void Analogue::render(uint32_t from, uint32_t to)  {
+void Analogue::render(uint32_t from, uint32_t to) {
     //std::cout << "render" << std::endl;    
     // copy control port values to faust zones
     for (int i = 0; i < p_n_ports - 3; i++) {   

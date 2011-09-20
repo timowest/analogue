@@ -1,6 +1,7 @@
 #include <gtkmm.h>
 #include <lv2gui.hpp>
 
+#include "knob.h"
 #include "Analogue.peg"
 #include "AnalogueMeta.h"
 
@@ -16,18 +17,18 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             //initialize sliders
             for (int i = 0; i < control_ports; i++) {
                 // TODO : make sure max works inclusively
-                scales[i] = manage(new HScale(p_port_meta[i].min, p_port_meta[i].max + p_port_meta[i].step, p_port_meta[i].step));
+                scales[i] = manage(new Knob(p_port_meta[i].min, p_port_meta[i].max, p_port_meta[i].step));
             }
 
-            unsigned char scale_size = 100;
+            /*unsigned char scale_size = 100;
             for (int i = 0; i < control_ports; i++) {
                 scales[i]->set_size_request(scale_size, -1);
-            }
+            }*/
 
             //connect widgets to control ports (change control values when sliders are moved)
             for (int i = 0; i < control_ports; i++) {
                 slot<void> slot = compose(bind<0>(mem_fun(*this, &AnalogueGUI::write_control), i + 3),
-                mem_fun(*scales[i], &HScale::get_value));
+                mem_fun(*scales[i], &Knob::get_value));
                 scales[i]->signal_value_changed().connect(slot);
             }
 
@@ -81,7 +82,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
     protected:
         HBox mainBox;
         
-        HScale *scales[p_n_ports - 3];
+        Knob *scales[p_n_ports - 3];
 };
 
 static int _ = AnalogueGUI::register_class("http://www.westkamper.com/lv2/analogue/gui");

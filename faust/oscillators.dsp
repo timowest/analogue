@@ -73,7 +73,6 @@ with {
 // helpers
 
 // TODO : more wavetypes
-// TODO : add sawtooth width
 oscillator(type, freq, width) = select4(type,
   osc(freq),
   sawtooth(freq), // sawtooth 

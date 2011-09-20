@@ -23,5 +23,6 @@ DEPENDENCIES
 
 * FAUST 2.*
 * lv2-c++-tools
-* GTK
+* GTK 3.*
+* GTKMM 3.*
 * ALSA (for standalone code)

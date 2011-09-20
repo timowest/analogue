@@ -1,6 +1,7 @@
 BUNDLE = Analogue.lv2
 INSTALL_DIR = /usr/local/lib/lv2
 ALSA_GTK = `pkg-config --cflags --libs alsa` `pkg-config --cflags --libs gtk+-2.0`
+GTKMM = `pkg-config --cflags --libs gtkmm-2.4`
 PAQ = `pkg-config --cflags --libs paq`
 FAUST = -I/usr/local/lib/faust/
 
@@ -16,7 +17,7 @@ Analogue.so: src/Analogue.cpp gen/Analogue.peg gen/AnalogueMeta.h gen/dsp.cpp
 	g++ -shared -Wall -fPIC -DPIC src/Analogue.cpp src/dsp.cpp $(PAQ) $(FAUST) $(CFLAGS) -Igen/ -lm -o Analogue.so
 
 AnalogueGUI.so: src/AnalogueGUI.cpp gen/Analogue.peg gen/AnalogueMeta.h
-	g++ -shared -Wall -fPIC -DPIC src/AnalogueGUI.cpp $(PAQ) $(CFLAGS) -Igen/ -o AnalogueGUI.so
+	g++ -shared -Wall -fPIC -DPIC src/AnalogueGUI.cpp src/knob.cpp $(GTKMM) $(PAQ) $(CFLAGS) -Igen/ -o AnalogueGUI.so
 
 gen/dsp.cpp:
 	faust -sch -fun -vec -a minimal.cpp faust/analogue-poly.dsp > gen/dsp.cpp
@@ -50,6 +51,9 @@ simple:
 dumpports: gen/dsp.cpp
 	g++ -Wall src/printttl.cpp src/dsp.cpp $(PAQ) $(FAUST) -lm -lsndfile -o dumpports.out
 	./dumpports.out > gen/ports.ttl
+
+widget:
+	g++ -Wall src/knob.cpp src/examplewindow.cpp src/main.cpp $(GTKMM) -o widget.out
 
 svg:
 	faust -svg faust/analogue.dsp
