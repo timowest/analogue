@@ -19,6 +19,7 @@ filters = library("filters.dsp");
 oscillators = library("oscillators.dsp");
 amps = library("amps.dsp");
 
+import("effects.dsp");
 import("utils.dsp");
 
 // Analogue Synth
@@ -47,5 +48,5 @@ with {
 
 };
 
-process = voice(mono_gate, mono_gain, mono_pitch) :> (_,_);
+process = voice(mono_gate, mono_gain, mono_pitch) : effects :> (_,_);
 

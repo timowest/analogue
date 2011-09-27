@@ -13,6 +13,7 @@
  */
 
 analogue = library("analogue.dsp");
+import("effects.dsp");
 
 // Polyphonic Analogue Synth
 
@@ -25,7 +26,7 @@ with {
 };
 
 // TODO : effects
-process = par(i, 16, voice(i)) :> (_,_,_,_) :> (_,_);
+process = par(i, 16, voice(i)) :> (_,_,_,_) : effects :> (_,_);
 
 
 
