@@ -1,4 +1,4 @@
-#include "Analogue.h"    
+#include "analogue.h"    
 
 #include <vector>
 

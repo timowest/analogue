@@ -19,9 +19,8 @@ import("freeverb.dsp");
 import("utils.dsp");
 
 // chorus & flanger
-// TODO : implement mix properly
 
-flanger_effect = vgroup("flanger", bypass2(bp, flanger_stereo(dmax,curdel1,curdel2,depth,fb,invert)))
+flanger_effect = vgroup("flanger", bypass2(bp, bus2 <: (bus2,flanger_stereo(dmax,curdel1,curdel2,depth,fb,invert)) : mix2_stereo(mix)))
 with {
    // parameters
    bp     = checkbox("bypass");
@@ -50,37 +49,18 @@ with {
 delay_effect = vgroup("delay", bus2);
 
 // reverb
-// TODO : implement mix properly
 
 // freeverb based
 reverb_effect = vgroup("reverb", bypass2(bp, fxctrl(fixedgain, wetSlider, stereoReverb(combfeed, allpassfeed, dampSlider, stereospread))))
 with {
    bp             = checkbox("bypass");
 
-   dampSlider     = hslider("damp",0.720, 0, 1, 0.025)*scaledamp;
-   roomsizeSlider = hslider("roomSize", 0.540, 0, 1, 0.025)*scaleroom + offsetroom;
-   wetSlider      = hslider("wet", 0.141, 0, 1, 0.025);
-   drySlider      = hslider("dry", 0, 0, 1, 0.025);
+   dampSlider     = hslider("damp",0.720, 0, 1, 0.025) * scaledamp;
+   roomsizeSlider = hslider("roomSize", 0.540, 0, 1, 0.025) * scaleroom + offsetroom;
+   wetSlider      = hslider("mix", 0.141, 0, 1, 0.025);
    combfeed       = roomsizeSlider;
 };
 
-// FIXME: doesn't work properly
-// zita_rev1_stereo based effect
-reverb_effect_zita = vgroup("reverb", bypass2(bp, zita_rev1_stereo(rdel,f1,f2,t60dc,t60m,fsmax) : out_level))
-with {
-   // parameters
-   bp    = checkbox("bypass");
-   rdel  = hslider("predelay", 60,20,100,1); // delay (in ms) before reverberation begins (e.g., 0 to ~100 ms)
-   f1    = hslider("crossover_freq", 200, 50, 1000, 1); // crossover frequency (Hz) separating dc and midrange frequencies
-   f2    = hslider("hf_dumping", 6000, 1500, 0.49*fsmax, 1); // frequency (Hz) above f1 where T60 = t60m/2 (see below)
-   t60dc = hslider("zero_decay", 3, 1, 8, 0.1); // desired decay time (t60) at frequency 0 (sec)
-   t60m  = hslider("mid_decay", 2, 1, 8, 0.1); // desired decay time (t60) at midrange frequencies (sec)
-   fsmax = 48000.0; //maximum sampling rate to be used (Hz)
-   mix   = hslider("mix", 0.5, 0, 1, 0.01);
-
-   out_level = _*gain, _*gain; 
-   gain = db2linear(-40);
-};
 
 // topologies
 // A - B - C

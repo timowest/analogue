@@ -3,25 +3,143 @@
 
 // TODO : optimize imports
 #include <gtkmm.h>
+#include <gdkmm/general.h>  // for cairo helper functions
+#include <iostream>
+#include <cstring>
 
-class Knob : public Gtk::DrawingArea
-{
+#include <iostream>
+#include <stdio.h>
+
+using namespace Cairo;
+
+class Knob : public Gtk::DrawingArea {
 public:
-  Knob(float min, float max, float step);
-  virtual ~Knob();
-  bool on_expose_event(GdkEventExpose* event);
-  bool on_motion_notify(GdkEventMotion* event);
-  bool on_button_press(GdkEventButton* event);
-  float get_value();
-  void set_value(float val);
-  void refresh();
-  sigc::signal<void> signal_value_changed();
+
+  Knob(float min, float max, float step) : value(0.0), min(min), max(max), step(step) {  
+    set_size_request(40, 40);
+    radius = 15.0;
+    line_width = 2.5;
+    range = max - min;
+    sensitivity = range / step;
+    //sensitivity = range / 100.0;
+    bgColor = Gdk::Color("black");
+    activeColor = Gdk::Color("black");
+    passiveColor = Gdk::Color("white");
+
+    add_events( Gdk::EXPOSURE_MASK | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON1_MOTION_MASK);
+    signal_motion_notify_event().connect(mem_fun(this, &Knob::on_motion_notify));
+    signal_button_press_event().connect(mem_fun(this, &Knob::on_button_press));
+  }
+
+  virtual ~Knob(){}
+
+
+  bool on_motion_notify(GdkEventMotion* event) {
+    float offset = (origin_y - event->y) * range / sensitivity;
+    float new_value = origin_val + ((step == 0.0) ? offset : step * floor ((offset / step) + 0.5));   
+    if (new_value > max) {
+        new_value = max;
+    } else if (new_value < min) {
+        new_value = min;
+    }   
+    value = new_value;    
+    //value_changed.emit();
+    refresh();
+    return true;
+  }
+
+  bool on_expose_event(GdkEventExpose* event) {
+    Glib::RefPtr<Gdk::Window> window = get_window();
+  
+    if (window) {
+      Cairo::RefPtr<Cairo::Context> cr = window->create_cairo_context();
+
+      Gtk::Allocation allocation = get_allocation();
+      const int width = allocation.get_width();
+      const int height = allocation.get_height();
+
+      int xc = width / 2;
+      int yc = height / 2;
+      double val = (value - min) / (max - min);
+      
+      double angle = (0.75 + val * 1.5) * M_PI; 
+      //double angle_start = 0.75 * M_PI; 
+      //double angle_end = 2.25  * M_PI;
+
+      cr->set_antialias(ANTIALIAS_SUBPIXEL);
+
+      // arc
+      cr->save();
+      Gdk::Cairo::set_source_color(cr, bgColor);
+      cr->arc(xc, yc, radius, 0, 2.0 * M_PI);
+      cr->set_line_width(2.5);
+      cr->stroke();
+      cr->restore();
+
+      // line
+      cr->save();
+      cr->move_to(xc + 0.3 * radius * cos(angle), yc + 0.3 * radius * sin(angle));
+      cr->line_to(xc + 0.9 * radius * cos(angle), yc + 0.9 * radius * sin(angle));
+      cr->set_line_width(2.5);
+      cr->stroke();
+      cr->restore();
+    } 
+
+    return true;
+  } 
+
+  bool on_button_press(GdkEventButton* event) {
+    origin_val = value;
+    origin_y = event->y;
+    return true;
+  }
+
+  float get_value()  {
+    return value; 
+  }
+
+  void set_value(float val) {
+    value = val;
+  }
+
+  void set_radius(float r) {
+     radius = r; 
+  }
+
+  void set_line_width(float w) {
+     line_width = w;
+  }
+
+  void set_size(int s) {
+     set_size_request(s, s);
+  }
+
+  void refresh() {
+    Glib::RefPtr<Gdk::Window> win = get_window();
+    if (win) {
+        Gdk::Rectangle r(0, 0, get_allocation().get_width(), get_allocation().get_height());
+        win->invalidate_rect(r, false);
+    }
+  }
+
+  sigc::signal<void> signal_value_changed() {
+    return value_changed;
+  }
 
 protected:
+
   Gdk::Color bgColor, activeColor, passiveColor;
+
   float value;
+
   float min, max, step;
+
+  float line_width;
+
+  float radius;
+
   float range, sensitivity, origin_val, origin_y;
+
   sigc::signal<void> value_changed;
 
 };

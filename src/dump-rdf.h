@@ -1,5 +1,5 @@
-#ifndef COLLECTOR_UI_H
-#define COLLECTOR_UI_H
+#ifndef DUMP_RDF_UI_H
+#define DUMP_RDF_UI_H
 
 #include "dsp.h"
 

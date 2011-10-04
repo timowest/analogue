@@ -1,5 +1,5 @@
 #include "dsp.h"
-#include "DumpRDFUI.h"
+#include "dump-rdf.h"
 
 int main() {
     DumpRDFUI* ui = new DumpRDFUI();

@@ -13,23 +13,29 @@ $(BUNDLE): manifest.ttl analogue.ttl Analogue.so AnalogueGUI.so
 	mkdir $(BUNDLE)
 	cp $^ $(BUNDLE)
 
-Analogue.so: src/Analogue.cpp gen/Analogue.peg gen/AnalogueMeta.h gen/dsp.cpp
-	g++ -shared -Wall -fPIC -DPIC src/Analogue.cpp src/dsp.cpp $(PAQ) $(FAUST) $(CFLAGS) -Igen/ -lm -o Analogue.so
+Analogue.so: src/analogue.cpp gen/analogue.peg gen/analogue-meta.h gen/dsp.cpp
+	g++ -shared -Wall -fPIC -DPIC src/analogue.cpp src/dsp.cpp $(PAQ) $(FAUST) $(CFLAGS) -Igen/ -lm -o Analogue.so
 
-AnalogueGUI.so: src/AnalogueGUI.cpp gen/Analogue.peg gen/AnalogueMeta.h
-	g++ -shared -Wall -fPIC -DPIC src/AnalogueGUI.cpp src/knob.cpp $(GTKMM) $(PAQ) $(CFLAGS) -Igen/ -o AnalogueGUI.so
+AnalogueGUI.so: src/analogue-gui.cpp gen/analogue.peg gen/analogue-meta.h
+	g++ -shared -Wall -fPIC -DPIC src/analogue-gui.cpp $(GTKMM) $(PAQ) $(CFLAGS) -Igen/ -o AnalogueGUI.so
+
+guitest: src/analogue-gui.cpp gen/analogue.peg gen/analogue-meta.h
+	g++ -Wall src/analogue-gui-test.cpp $(GTKMM) $(PAQ) $(CFLAGS) -Igen/ -o guitest.out
+
+knobtest: 
+	g++ -Wall src/knob-test.cpp $(GTKMM) $(PAQ) $(CFLAGS) -Igen/ -o knobtest.out
 
 gen/dsp.cpp:
 	faust -sch -fun -vec -a minimal.cpp faust/analogue-poly.dsp > gen/dsp.cpp
 
-gen/Analogue.peg:
-	lv2peg analogue.ttl gen/Analogue.peg
+gen/analogue.peg:
+	lv2peg analogue.ttl gen/analogue.peg
 
-gen/AnalogueMeta.h:
+gen/analogue-meta.h:
 	python portmeta.py
 
-test: gen/Analogue.peg gen/AnalogueMeta.h gen/dsp.cpp
-	g++ -Wall src/LongNoteTest.cpp src/Analogue.cpp src/dsp.cpp $(PAQ) $(FAUST) -lm -lsndfile -Igen/ -o test.out
+test: gen/analogue.peg gen/analogue-meta.h gen/dsp.cpp
+	g++ -Wall src/long-note-test.cpp src/analogue.cpp src/dsp.cpp $(PAQ) $(FAUST) -lm -lsndfile -Igen/ -o test.out
 	./test.out
 
 standalone: 
@@ -52,8 +58,8 @@ dumpports: gen/dsp.cpp
 	g++ -Wall src/printttl.cpp src/dsp.cpp $(PAQ) $(FAUST) -lm -lsndfile -o dumpports.out
 	./dumpports.out > gen/ports.ttl
 
-widget:
-	g++ -Wall src/knob.cpp src/examplewindow.cpp src/main.cpp $(GTKMM) -o widget.out
+#widget:
+#	g++ -Wall src/knob.cpp src/examplewindow.cpp src/main.cpp $(GTKMM) -o widget.out
 
 svg:
 	faust -svg faust/analogue.dsp

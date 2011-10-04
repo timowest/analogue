@@ -5,12 +5,12 @@
 #include <lv2plugin.hpp>
 #include <lv2_event_helpers.h>
 
-#include "AnalogueCommon.h"
-#include "Analogue.peg"
-#include "AnalogueMeta.h"
+#include "analogue-common.h"
+#include "analogue.peg"
+#include "analogue-meta.h"
 
 #include "dsp.h"
-#include "CollectorUI.h"
+#include "collector-ui.h"
 
 class Analogue : public LV2::Plugin<Analogue, LV2::URIMap<true> > {
     private:

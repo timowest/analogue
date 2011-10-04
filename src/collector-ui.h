@@ -9,34 +9,6 @@
 
 class CollectorUI : public UI {    
     
-    private:
-    
-        float** inputs;
-        float** outputs;
-        int boxIndex;
-        const char* boxes[5];
-
-        std::map<std::string, float *> labelToZone;
-
-        void addZone(const char* label, float* zone) {
-            char fullPath[50];
-            strcpy(fullPath, boxes[1]);
-            strcat(fullPath, "_");
-            for (int i = 2; i < boxIndex; i++) {
-                strcat(fullPath, boxes[i]);
-                strcat(fullPath, "_");
-            }
-            strcat(fullPath, label);
-            //std::cout << fullPath << std::endl;
-
-            std::string name(fullPath);
-            labelToZone[name] = zone;
-        }
-        
-        void openBox(const char* label) {
-            boxes[boxIndex++] = label;
-        }
-
    public:
 
         CollectorUI(){
@@ -129,6 +101,34 @@ class CollectorUI : public UI {
 
         float* getZone(std::string name) {
             return labelToZone[name];
+        }
+
+    private:
+    
+        float** inputs;
+        float** outputs;
+        int boxIndex;
+        const char* boxes[5];
+
+        std::map<std::string, float *> labelToZone;
+
+        void addZone(const char* label, float* zone) {
+            char fullPath[50];
+            strcpy(fullPath, boxes[1]);
+            strcat(fullPath, "_");
+            for (int i = 2; i < boxIndex; i++) {
+                strcat(fullPath, boxes[i]);
+                strcat(fullPath, "_");
+            }
+            strcat(fullPath, label);
+            //std::cout << fullPath << std::endl;
+
+            std::string name(fullPath);
+            labelToZone[name] = zone;
+        }
+        
+        void openBox(const char* label) {
+            boxes[boxIndex++] = label;
         }
 
 };

@@ -21,10 +21,7 @@ split(ratio) = _ <: ((1-ratio) * _, ratio * _);
 // mix variant of select2
 mix2(ratio, a, b) = ratio * b + (1 - ratio) * a;
 
-mix2_stereo(ratio) = interleave(4,2) <: par(i, 4, mix2(ratio));
-
-multiselect(n,s) = interleave(n,2) <: par(i,n, select2(s));
-//process = multiselect(4, button("press"));
+mix2_stereo(ratio, al, ar, bl, br) = mix2(ratio, al, bl), mix2(ratio, ar, br);
 
 select4(i) = select2(i > 2, select3(i, _, _, _), _);
 

@@ -49,7 +49,7 @@ for i in range(3, maxIndex + 1):
 meta_cpp.append("};")
 meta_cpp.append("#endif")
 
-cppFile = open("gen/AnalogueMeta.h", "w")
+cppFile = open("gen/analogue-meta.h", "w")
 cppFile.write("\n".join(meta_cpp))
 cppFile.close()
 
