@@ -10,9 +10,11 @@
 #include <iostream>
 #include <stdio.h>
 
+#include "changeable.h"
+
 using namespace Cairo;
 
-class Knob : public Gtk::DrawingArea {
+class Knob : public Gtk::DrawingArea, public Changeable {
 public:
 
   Knob(float min, float max, float step) : value(0.0), min(min), max(max), step(step) {  
@@ -33,7 +35,6 @@ public:
 
   virtual ~Knob(){}
 
-
   bool on_motion_notify(GdkEventMotion* event) {
     float offset = (origin_y - event->y) * range / sensitivity;
     float new_value = origin_val + ((step == 0.0) ? offset : step * floor ((offset / step) + 0.5));   
@@ -43,7 +44,7 @@ public:
         new_value = min;
     }   
     value = new_value;    
-    //value_changed.emit();
+    value_changed.emit();
     refresh();
     return true;
   }
@@ -68,6 +69,16 @@ public:
 
       cr->set_antialias(ANTIALIAS_SUBPIXEL);
 
+      // radial gradient
+      cr->save();
+      Cairo::RefPtr<Cairo::RadialGradient> radial = Cairo::RadialGradient::create(xc, yc, radius, xc - 2.0, yc - 2.0, radius);
+      radial->add_color_stop_rgba(0,  0.0, 0.0, 0.0, 0.5);
+      radial->add_color_stop_rgba(1,  0.0, 0.0, 0.0, 0.0);
+      cr->set_source(radial); 
+      cr->arc(xc, yc, radius * 1.2, 0.0, 2 * M_PI);
+      cr->fill();
+      cr->restore();
+
       // arc
       cr->save();
       Gdk::Cairo::set_source_color(cr, bgColor);
@@ -75,7 +86,7 @@ public:
       cr->set_line_width(2.5);
       cr->stroke();
       cr->restore();
-
+      
       // line
       cr->save();
       cr->move_to(xc + 0.3 * radius * cos(angle), yc + 0.3 * radius * sin(angle));
@@ -124,6 +135,14 @@ public:
 
   sigc::signal<void> signal_value_changed() {
     return value_changed;
+  }
+
+  Gtk::Widget* get_widget() {
+    return this;
+  }
+
+  void connect(sigc::slot<void> slot) {
+    value_changed.connect( slot );
   }
 
 protected:

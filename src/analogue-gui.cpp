@@ -2,8 +2,11 @@
 #include <lv2gui.hpp>
 
 #include "knob.h"
+#include "comboboxes.h"
 #include "analogue.peg"
 #include "analogue-meta.h"
+
+#include <stdio.h>
 #include <string.h>
 
 using namespace sigc;
@@ -17,25 +20,37 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
 
             //initialize sliders
             for (int i = 0; i < control_ports; i++) {
-                Knob* knob = new Knob(p_port_meta[i].min, p_port_meta[i].max, p_port_meta[i].step);
-                if (isEnvControl(i)) {
-                    knob->set_size(30);
-                    knob->set_radius(10);
-                    knob->set_line_width(1.5);
-                } else if (isModControl(i)) {
-                    knob->set_radius(12.0);
-                }
-                scales[i] = manage(knob);                
+                if (isOSCType(i)) {
+                    scales[i] = manage(new OSCTypeComboBox());
+                } else if (isFilterType(i)) {
+                    scales[i] = manage(new FilterTypeComboBox());
+                } else {
+                    Knob* knob = new Knob(p_port_meta[i].min, p_port_meta[i].max, p_port_meta[i].step);
+                    if (isEnvControl(i)) {
+                        // small
+                        knob->set_size(30);
+                        knob->set_radius(10);
+                        knob->set_line_width(1.5);
+                    } else if (isModControl(i)) {
+                       // medium
+                       knob->set_radius(12.0);
+                    }
+                    scales[i] = manage(knob);   
+                }             
             }
 
             //connect widgets to control ports (change control values when sliders are moved)
             for (int i = 0; i < control_ports; i++) {
                 slot<void> slot1 = compose(bind<0>(mem_fun(*this, &AnalogueGUI::write_control), i + 3),
-                    mem_fun(*scales[i], &Knob::get_value));
+                    mem_fun(*scales[i], &Changeable::get_value));
                 slot<void> slot2 = compose(bind<0>(mem_fun(*this, &AnalogueGUI::change_status_bar), i + 3),
-                    mem_fun(*scales[i], &Knob::get_value));
-                scales[i]->signal_value_changed().connect(slot1);
-                scales[i]->signal_value_changed().connect(slot2);
+                    mem_fun(*scales[i], &Changeable::get_value));
+                //scales[i]->signal_value_changed().connect(slot1);
+                //scales[i]->signal_value_changed().connect(slot2);
+                int port = i + 3;
+                if (port != p_osc1_type && port != p_osc2_type && port != p_filter1_type && port != p_filter2_type) {
+                    scales[i]->connect(slot2);
+                }                
             }
 
             //connect all faders to the 'notify' function to inform the plugin to recalculate
@@ -44,10 +59,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             mem_fun(*this, &AnalogueGUI::notify_param_change));
             }*/
 
-            HBox* header = manage(new HBox());           
-            header->pack_start(*manage(new Image("analogue.png")));
-            header->set_border_width(5);
-            mainBox.pack_start(*align(header));
+
 
             Table* block1 = manage(new Table(2,4));
             block1->attach(*createOSC1(),    0, 1, 1, 2);
@@ -78,13 +90,20 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             mainBox.pack_start(*align(block2));
 */
             HBox* block3 = manage(new HBox());
+            //block3->pack_start(*createNoise());
             block3->pack_start(*createFilter1Env());
             block3->pack_start(*createFilter2Env());
             block3->pack_start(*createAmp1Env());
             block3->pack_start(*createAmp2Env());
-            mainBox.pack_start(*block3);
+            mainBox.pack_start(*align(block3));
 
             // TODO : HBox for Chorus, Delay and Reverb
+
+            HBox* header = manage(new HBox());           
+            header->pack_start(*manage(new Image("analogue.png")));
+            header->pack_end(*scales[p_amp_output - 3]->get_widget());
+            header->set_border_width(5);
+            mainBox.pack_start(*align(header));
 
             mainBox.pack_end(statusbar);
 
@@ -252,13 +271,22 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             return smallFrame("Amp2 Env", table);
         }
 
+/*
+        Widget* createFlanger() {
+          // delay_offset, depth, feedback, flange_delay, invert, mix, speed
+        }
+
+        Widget* createReverb() {
+          // damp, mix, roomSize 
+        }
+*/
         void control(Table* table, const char* label, int port_index, int left, int top) {
-            table->attach(*scales[port_index - 3], left, left + 1, top, top + 1);
+            table->attach(*scales[port_index - 3]->get_widget(), left, left + 1, top, top + 1);
             table->attach(*manage(new Label(label)), left, left + 1, top + 1, top + 2);
         }
 
         Widget* smallFrame(const char* label, Table* content) {
-            content->set_border_width(5);
+            content->set_border_width(2);
             content->set_col_spacings(2);
             content->set_spacings(2);
 
@@ -274,9 +302,9 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
         }
 
         Widget* frame(const char* label, Table* content) {
-            content->set_border_width(10);
+            content->set_border_width(2);
             content->set_col_spacings(5);
-            content->set_spacings(5);
+            content->set_spacings(2);
 
             Frame* frame = manage(new Frame());
             frame->set_label_align(0.0f, 0.0f);
@@ -296,8 +324,18 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             return alignment;
         }
 
+        bool isOSCType(int i) {
+            const char* symbol = p_port_meta[i].symbol;
+            return strstr(symbol, "osc1_type") || strstr(symbol, "osc2_type");
+        }
+
+        bool isFilterType(int i) {
+            const char* symbol = p_port_meta[i].symbol;
+            return strstr(symbol, "filter1_type") || strstr(symbol, "filter2_type");
+        }
+
         bool isEnvControl(int i) {
-             const char* symbol = p_port_meta[i].symbol;
+            const char* symbol = p_port_meta[i].symbol;
             return strstr(symbol, "_attack") || strstr(symbol, "_decay") || strstr(symbol, "_sustain") || strstr(symbol, "_release");
         }
 
@@ -313,14 +351,22 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
         }
 
         void change_status_bar(uint32_t port, float value) {
-
+           if (p_port_meta[port-3].step >= 1.0f) {
+               sprintf(statusBarText, "%s = %3.0f", p_port_meta[port-3].symbol, value);
+           } else {
+               sprintf(statusBarText, "%s = %3.3f", p_port_meta[port-3].symbol, value);
+           }
+           statusbar.remove_all_messages();
+           statusbar.push(statusBarText);
         }
 
     protected:
         VBox mainBox;
         Statusbar statusbar;
-        
-        Knob *scales[p_n_ports - 3];
+        char statusBarText[40];          
+
+        //Knob *scales[p_n_ports - 3];
+        Changeable *scales[p_n_ports - 3];
 };
 
 static int _ = AnalogueGUI::register_class("http://www.westkamper.com/lv2/analogue/gui");

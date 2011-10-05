@@ -48,5 +48,7 @@ with {
 
 };
 
-process = voice(mono_gate, mono_gain, mono_pitch) : effects :> (_,_);
+main_out = nentry("/h:amp/output", 1, 0, 1, 0.01); // TODO in dB
+
+process = voice(mono_gate, mono_gain, mono_pitch) : effects :> (main_out * _, main_out * _);
 

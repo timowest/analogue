@@ -25,6 +25,9 @@ guitest: src/analogue-gui.cpp gen/analogue.peg gen/analogue-meta.h
 knobtest: 
 	g++ -Wall src/knob-test.cpp $(GTKMM) $(PAQ) $(CFLAGS) -Igen/ -o knobtest.out
 
+comboboxestest: 
+	g++ -Wall src/comboboxes-test.cpp $(GTKMM) $(PAQ) $(CFLAGS) -Igen/ -o comboboxestest.out
+
 gen/dsp.cpp:
 	faust -sch -fun -vec -a minimal.cpp faust/analogue-poly.dsp > gen/dsp.cpp
 
