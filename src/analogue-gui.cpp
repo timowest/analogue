@@ -47,8 +47,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
                     mem_fun(*scales[i], &Changeable::get_value));
                 //scales[i]->signal_value_changed().connect(slot1);
                 //scales[i]->signal_value_changed().connect(slot2);
-                int port = i + 3;
-                if (port != p_osc1_type && port != p_osc2_type && port != p_filter1_type && port != p_filter2_type) {
+                if (!isOSCType(i) && !isFilterType(i)) {
                     scales[i]->connect(slot2);
                 }                
             }
@@ -326,7 +325,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
 
         bool isOSCType(int i) {
             const char* symbol = p_port_meta[i].symbol;
-            return strstr(symbol, "osc1_type") || strstr(symbol, "osc2_type");
+            return (strstr(symbol, "osc") || strstr(symbol, "lfo")) && strstr(symbol, "_type");
         }
 
         bool isFilterType(int i) {

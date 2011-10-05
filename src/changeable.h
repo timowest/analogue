@@ -13,6 +13,7 @@ public:
 
   virtual void connect(sigc::slot<void> slot) = 0;
 
+  // TODO : is this necessary or should we use inheritance instance?
   virtual Gtk::Widget* get_widget() = 0;
 
 };
