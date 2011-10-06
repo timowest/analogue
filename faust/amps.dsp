@@ -19,10 +19,10 @@ import("utils.dsp");
 // amplifiers
 
 // in : gate, gain, pitch, lfo
-amp1 = vgroup("amp1", amp);
+amp1 = vgroup("amp1", multiselect(2, checkbox("power"), 0, 0, amp));
 
 // in : gate, gain, pitch, lfo
-amp2 = vgroup("amp2", amp);
+amp2 = vgroup("amp2", multiselect(2, checkbox("power"), 0, 0, amp));
 
 amp(gate, gain, pitch, lfo) = ((gate : env), _) <: (_,!,level*_*_) : amp_stereo(pitch, lfo)
 with {

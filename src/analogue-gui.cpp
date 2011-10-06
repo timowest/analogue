@@ -1,8 +1,10 @@
 #include <gtkmm.h>
 #include <lv2gui.hpp>
 
-#include "knob.h"
 #include "comboboxes.h"
+#include "knob.h"
+#include "toggle.h"
+#include "panel.h"
 #include "analogue.peg"
 #include "analogue-meta.h"
 
@@ -24,6 +26,10 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
                     scales[i] = manage(new OSCTypeComboBox());
                 } else if (isFilterType(i)) {
                     scales[i] = manage(new FilterTypeComboBox());
+                } else if (isPower(i)) { 
+                    scales[i] = manage(new Toggle());
+                } else if (isBypass(i)) { 
+                    scales[i] = manage(new Toggle(true));
                 } else {
                     Knob* knob = new Knob(p_port_meta[i].min, p_port_meta[i].max, p_port_meta[i].step);
                     if (isEnvControl(i)) {
@@ -47,7 +53,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
                     mem_fun(*scales[i], &Changeable::get_value));
                 //scales[i]->signal_value_changed().connect(slot1);
                 //scales[i]->signal_value_changed().connect(slot2);
-                if (!isOSCType(i) && !isFilterType(i)) {
+                if (!isOSCType(i) && !isFilterType(i) && !isToggle(i)) {
                     scales[i]->connect(slot2);
                 }                
             }
@@ -123,7 +129,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             control(table, "LFO1", p_osc1_lfo_to_w, 2, 3);
             control(table, "LFO1", p_osc1_lfo_to_p, 3, 3);
             control(table, "F1 F2", p_osc1_f1_to_f2, 4, 3);
-            return frame("OSC1", table); 
+            return frame("OSC1", p_osc1_power, table); 
         }
 
         Widget* createOSC2() {
@@ -140,7 +146,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             control(table, "LFO2", p_osc2_lfo_to_w, 2, 3);
             control(table, "LFO2", p_osc2_lfo_to_p, 3, 3);
             control(table, "F1 F2", p_osc2_f1_to_f2, 4, 3);
-            return frame("OSC2", table); 
+            return frame("OSC2", p_osc2_power, table); 
         }
 
         Widget* createNoise() {
@@ -148,7 +154,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             control(table, "Color", p_noise_color, 0, 1);
             control(table, "F1 F2", p_noise_f1_to_f2, 1, 1);
             control(table, "Level", p_noise_level, 2, 1);
-            return frame("Noise", table);
+            return frame("Noise", p_noise_power, table);
         }
 
         Widget* createLFO1() {
@@ -158,7 +164,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             control(table, "Delay", p_lfo1_delay, 2, 1);
             control(table, "Fade In", p_lfo1_fade_in, 3, 1);
             control(table, "Width", p_lfo1_width, 4, 1);
-            return frame("LFO1", table);
+            return frame("LFO1", p_lfo1_power, table);
         }
 
         Widget* createLFO2() {
@@ -168,7 +174,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             control(table, "Delay", p_lfo2_delay, 2, 1);
             control(table, "Fade In", p_lfo2_fade_in, 3, 1);
             control(table, "Width", p_lfo2_width, 4, 1);
-            return frame("LFO2", table);
+            return frame("LFO2", p_lfo2_power, table);
         }
 
         Widget* createFilter1() {         
@@ -185,7 +191,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             control(table, "Env1", p_filter1_env_to_f, 2, 3);
             control(table, "LFO1", p_filter1_lfo_to_q, 3, 3);
             control(table, "Env1", p_filter1_env_to_q, 4, 3);
-            return frame("Filter 1", table);
+            return frame("Filter 1", p_filter1_bypass, table);
         }
 
         Widget* createFilter2() {
@@ -201,7 +207,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             control(table, "Env2", p_filter2_env_to_f, 2, 3);
             control(table, "LFO2", p_filter2_lfo_to_q, 3, 3);
             control(table, "Env2", p_filter2_env_to_q, 4, 3);
-            return frame("Filter 2", table);
+            return frame("Filter 2", p_filter2_bypass, table);
         }
 
         Widget* createAmp1() {
@@ -216,7 +222,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             // empty
             control(table, "LFO", p_amp1_lfo_to_pan, 2, 3);
             control(table, "Env", p_amp1_env_to_pan, 3, 3); 
-            return frame("Amp 1", table);
+            return frame("Amp 1", p_amp1_power, table);
         }
 
         Widget* createAmp2() {
@@ -231,7 +237,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             // empty
             control(table, "LFO", p_amp2_lfo_to_pan, 2, 3);
             control(table, "Env", p_amp2_env_to_pan, 3, 3); 
-            return frame("Amp 2", table);
+            return frame("Amp 2", p_amp2_power, table);
         }
 
         Widget* createFilter1Env() {
@@ -300,20 +306,24 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             return alignment;
         }
 
-        Widget* frame(const char* label, Table* content) {
+        Widget* frame(const char* label, int toggle, Table* content) {
             content->set_border_width(2);
             content->set_col_spacings(5);
             content->set_spacings(2);
 
+            /*
             Frame* frame = manage(new Frame());
             frame->set_label_align(0.0f, 0.0f);
             frame->set_border_width(5);
             frame->set_label(label);
             frame->add(*content);
             frame->set_shadow_type(SHADOW_OUT);
+            */
             
+            Panel* panel = manage(new Panel(label, scales[toggle - 3]->get_widget(), content));
+             
             Alignment* alignment = manage(new Alignment(0.0, 0.0, 1.0, 0.0));
-            alignment->add(*frame);
+            alignment->add(*panel);
             return alignment;
         }
 
@@ -321,6 +331,21 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             Alignment* alignment = manage(new Alignment(0.0, 0.0, 0.0, 0.0));
             alignment->add(*widget);
             return alignment;
+        }
+
+        bool isToggle(int i) {
+            const char* symbol = p_port_meta[i].symbol;
+            return strstr(symbol, "_power") || strstr(symbol, "_bypass");
+        }
+
+        bool isPower(int i) {
+            const char* symbol = p_port_meta[i].symbol;
+            return strstr(symbol, "_power");
+        }
+
+        bool isBypass(int i) {
+            const char* symbol = p_port_meta[i].symbol;
+            return strstr(symbol, "_bypass");
         }
 
         bool isOSCType(int i) {

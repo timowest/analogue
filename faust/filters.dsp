@@ -27,10 +27,10 @@ with {
 // in : lfo, signal
 filter2(gate, pitch) = vgroup("filter2", (_,(gate : env),_) : filter(pitch) );
 
-filter(pitch, lfo, env) = reson_filter(
+filter(pitch, lfo, env) = _ <: select2(checkbox("bypass"), _, reson_filter(
     type, 
     key2hz(cutoff, kbd_track * (pitch - A4) + (lfo_to_f * lfo) +  (env_to_f * env)), 
-    q + (lfo_to_q * lfo) + (env_to_q * env))
+    q + (lfo_to_q * lfo) + (env_to_q * env)))
 with {
   type = hslider("type", 0, 0, 3, 1);
   cutoff = hslider("cutoff", 440, 0, 5000, 10);
@@ -51,7 +51,7 @@ reson_filter(type, freq, res) = _ <: select4(type,
   resonbr(freq, res, 1.0)) // bandreject
 with {
 
-  resonbr(fc,Q,gain,x) = gain * x - resonbp(fc,Q,gain,x);
+  resonbr(fc,Q,gain,x) = (gain * x) - resonbp(fc,Q,gain,x);
 
 };
 

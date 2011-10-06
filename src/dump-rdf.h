@@ -16,8 +16,7 @@ class DumpRDFUI : public UI {
         const char* boxes[5];
         
         void addZone(const char* label) {
-            if (strcmp(boxes[1],"midi") == 0) return;
-            // TODO
+            addZone(label, 1.0f, 0.0f, 0.0f, 1.0f);
         }
 
         void addZone(const char* label, float init, float min, float max, float step) {
@@ -64,7 +63,7 @@ class DumpRDFUI : public UI {
             addZone(label, init, min, max, step); 
         }
 
-        virtual void addHorizontalSlider(const char* label, float* zone, float init, float min, float max, float step)     { 
+        virtual void addHorizontalSlider(const char* label, float* zone, float init, float min, float max, float step) { 
             addZone(label, init, min, max, step); 
         }
 

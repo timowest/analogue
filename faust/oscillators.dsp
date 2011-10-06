@@ -21,10 +21,10 @@ import("utils.dsp");
 // oscillators
 
 // in : gate
-lfo1 = vgroup("lfo1", lfo);
+lfo1 = vgroup("lfo1", select2(checkbox("power"), 0, lfo));
 
 // in : gate
-lfo2 = vgroup("lfo2", lfo);
+lfo2 = vgroup("lfo2", select2(checkbox("power"), 0, lfo));
 
 lfo(gate) = oscillator(type, freq, width) : fade_in(fade_in_samples, gate) : delay(SR, delay_in_samples)
 with {
@@ -37,10 +37,10 @@ with {
 
 
 // in : pitch, lfo
-osc1 = vgroup("osc1", osc_);
+osc1 = vgroup("osc1", multiselect(2, checkbox("power"), 0, 0, osc_));
 
 // in : pitch, lfo
-osc2 = vgroup("osc2", osc_);
+osc2 = vgroup("osc2", multiselect(2, checkbox("power"), 0, 0, osc_));
 
 osc_(pitch, lfo) = oscillator(
     type, 
@@ -61,9 +61,9 @@ with {
 
 // noise
 
-noisegen = vgroup("noise", noise 
+noisegen = vgroup("noise", multiselect(2, checkbox("power"), 0, 0, noise 
     : lowpass(1, noise_color) * noise_level 
-    : split(f1_to_f2))
+    : split(f1_to_f2)))
 with {
   noise_color = hslider("color", 2000, 200, 5000, 50);
   noise_level = hslider("level", 0, 0, 1, 0.01);

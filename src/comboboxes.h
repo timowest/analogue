@@ -6,17 +6,6 @@
 
 #include "changeable.h"
 
-class ModelColumns : public Gtk::TreeModel::ColumnRecord {
-public:
-
-  ModelColumns() { 
-    add(col_name); 
-  }
-
-  Gtk::TreeModelColumn<Glib::ustring> col_name;
-
-};
-
 class OSCTypeComboBox : public Gtk::ComboBoxText, public Changeable {
 public:
 
