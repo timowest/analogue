@@ -64,8 +64,6 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             mem_fun(*this, &AnalogueGUI::notify_param_change));
             }*/
 
-
-
             Table* block1 = manage(new Table(2,4));
             block1->attach(*createOSC1(),    0, 1, 1, 2);
             block1->attach(*createFilter1(), 1, 2, 1, 2); 
@@ -78,22 +76,6 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             block1->attach(*createAmp2(),    3, 4, 2, 3);
             mainBox.pack_start(*align(block1));    
 
-/*
-            Table* block1 = manage(new Table(2,3));
-            block1->attach(*createOSC1(),    0, 1, 1, 2);
-            block1->attach(*createFilter1(), 1, 2, 1, 2); 
-            block1->attach(*createAmp1(),    2, 3, 1, 2);
-            block1->attach(*createOSC2(),    0, 1, 2, 3);
-            block1->attach(*createFilter2(), 1, 2, 2, 3);
-            block1->attach(*createAmp2(),    2, 3, 2, 3);
-            mainBox.pack_start(*align(block1));            
-
-            HBox* block2 = manage(new HBox());
-            block2->pack_start(*createNoise());
-            block2->pack_start(*createLFO1());
-            block2->pack_start(*createLFO2());
-            mainBox.pack_start(*align(block2));
-*/
             HBox* block3 = manage(new HBox());
             //block3->pack_start(*createNoise());
             block3->pack_start(*createFilter1Env());
@@ -278,6 +260,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
 
 /*
         Widget* createFlanger() {
+            Table* table = manage(new Table(2, 7)); 
           // delay_offset, depth, feedback, flange_delay, invert, mix, speed
         }
 
