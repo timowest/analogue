@@ -24,9 +24,6 @@ public:
     range = max - min;
     sensitivity = range / step;
     //sensitivity = range / 100.0;
-    bgColor = Gdk::Color("black");
-    activeColor = Gdk::Color("black");
-    passiveColor = Gdk::Color("white");
 
     add_events( Gdk::EXPOSURE_MASK | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON1_MOTION_MASK);
     signal_motion_notify_event().connect(mem_fun(this, &Knob::on_motion_notify));
@@ -50,6 +47,9 @@ public:
   }
 
   bool on_expose_event(GdkEventExpose* event) {
+    static Gdk::Color bgColor = Gdk::Color("black");
+    static Gdk::Color activeColor = Gdk::Color("black");
+    static Gdk::Color passiveColor = Gdk::Color("white");
     Glib::RefPtr<Gdk::Window> window = get_window();
   
     if (window) {
@@ -146,8 +146,6 @@ public:
   }
 
 protected:
-
-  Gdk::Color bgColor, activeColor, passiveColor;
 
   float value;
 
