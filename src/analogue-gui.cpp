@@ -36,8 +36,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
                         // small
                         knob->set_size(30);
                         knob->set_radius(10);
-                        knob->set_line_width(1.5);
-                    } else if (isModControl(i)) {
+                    } else if (isModControl(i) || isEffect(i)) {
                        // medium
                        knob->set_radius(12.0);
                     }
@@ -343,6 +342,11 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             Alignment* alignment = manage(new Alignment(0.0, 0.0, 0.0, 0.0));
             alignment->add(*widget);
             return alignment;
+        }
+
+        bool isEffect(int i) {
+            const char* symbol = p_port_meta[i].symbol;
+            return strstr(symbol, "effects_");
         }
 
         bool isToggle(int i) {

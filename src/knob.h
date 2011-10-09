@@ -83,7 +83,7 @@ public:
       cr->save();
       Gdk::Cairo::set_source_color(cr, bgColor);
       cr->arc(xc, yc, radius, 0, 2.0 * M_PI);
-      cr->set_line_width(2.5);
+      cr->set_line_width(line_width);
       cr->stroke();
       cr->restore();
       
@@ -91,7 +91,7 @@ public:
       cr->save();
       cr->move_to(xc + 0.3 * radius * cos(angle), yc + 0.3 * radius * sin(angle));
       cr->line_to(xc + 0.9 * radius * cos(angle), yc + 0.9 * radius * sin(angle));
-      cr->set_line_width(2.5);
+      cr->set_line_width(line_width);
       cr->stroke();
       cr->restore();
     } 
