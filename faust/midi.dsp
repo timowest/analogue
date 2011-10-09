@@ -19,3 +19,5 @@ mono_pitch = hslider("/h:midi/pitch", 64, 32, 100, 1);
 mono_gain = hslider("/h:midi/gain", 1, 0, 1, 0.01); 
 
 mono_gate = button("/h:midi/gate");
+
+

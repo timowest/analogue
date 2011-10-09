@@ -64,28 +64,43 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             mem_fun(*this, &AnalogueGUI::notify_param_change));
             }*/
 
-            Table* block1 = manage(new Table(2,4));
+            Table* block1 = manage(new Table(4,4));
+            // row 1
             block1->attach(*createOSC1(),    0, 1, 1, 2);
             block1->attach(*createFilter1(), 1, 2, 1, 2); 
             block1->attach(*createAmp1(),    2, 3, 1, 2);
-            block1->attach(*createLFO1(),    3, 4, 1, 2);
-            
-            block1->attach(*createLFO2(),    0, 1, 2, 3);
-            block1->attach(*createOSC2(),    1, 2, 2, 3);
-            block1->attach(*createFilter2(), 2, 3, 2, 3);
-            block1->attach(*createAmp2(),    3, 4, 2, 3);
+            block1->attach(*createLFO1(),    3, 4, 1, 2);            
+            // row 2
+            block1->attach(*align(createFilter1Env()), 1, 2, 2, 3);
+            block1->attach(*align(createAmp1Env()), 2, 3, 2, 3);      
+            // row 3
+            block1->attach(*createLFO2(),    0, 1, 3, 4);
+            block1->attach(*createOSC2(),    1, 2, 3, 4);
+            block1->attach(*createFilter2(), 2, 3, 3, 4);
+            block1->attach(*createAmp2(),    3, 4, 3, 4);
+            // row 4
+            //block1->attach(*align(createNoise()), 0, 1, 4, 5);
+            block1->attach(*align(createFilter2Env()), 2, 3, 4, 5);
+            block1->attach(*align(createAmp2Env()), 3, 4, 4, 5);      
+
             mainBox.pack_start(*align(block1));    
 
+            /*
             HBox* block3 = manage(new HBox());
-            //block3->pack_start(*createNoise());
             block3->pack_start(*createFilter1Env());
             block3->pack_start(*createFilter2Env());
             block3->pack_start(*createAmp1Env());
             block3->pack_start(*createAmp2Env());
             mainBox.pack_start(*align(block3));
+            */
 
-            // TODO : HBox for Chorus, Delay and Reverb
-
+            HBox* block4 = manage(new HBox());
+            block4->pack_start(*createNoise());
+            block4->pack_start(*createFlanger());
+            block4->pack_start(*createDelay());
+            block4->pack_start(*createReverb());
+            mainBox.pack_start(*align(block4));
+           
             HBox* header = manage(new HBox());           
             header->pack_start(*manage(new Image("analogue.png")));
             header->pack_end(*scales[p_amp_output - 3]->get_widget());
@@ -228,7 +243,8 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             control(table, "D", p_filter1_decay, 1, 1);
             control(table, "S", p_filter1_sustain, 2, 1);
             control(table, "R", p_filter1_release, 3, 1);
-            return smallFrame("Filter1 Env", table);
+            //return smallFrame("Filter1 Env", table);
+            return table; 
         }
 
         Widget* createFilter2Env() {
@@ -237,7 +253,8 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             control(table, "D", p_filter2_decay, 1, 1);
             control(table, "S", p_filter2_sustain, 2, 1);
             control(table, "R", p_filter2_release, 3, 1);
-            return smallFrame("Filter2 Env", table);
+            //return smallFrame("Filter2 Env", table);
+            return table;
         }
 
         Widget* createAmp1Env() {
@@ -246,7 +263,8 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             control(table, "D", p_amp1_decay, 1, 1);
             control(table, "S", p_amp1_sustain, 2, 1);
             control(table, "R", p_amp1_release, 3, 1);
-            return smallFrame("Amp1 Env", table);
+            //return smallFrame("Amp1 Env", table);
+            return table;
         }
 
         Widget* createAmp2Env() {
@@ -255,19 +273,39 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             control(table, "D", p_amp2_decay, 1, 1);
             control(table, "S", p_amp2_sustain, 2, 1);
             control(table, "R", p_amp2_release, 3, 1);
-            return smallFrame("Amp2 Env", table);
+            //return smallFrame("Amp2 Env", table);
+            return table;
         }
 
-/*
         Widget* createFlanger() {
-            Table* table = manage(new Table(2, 7)); 
-          // delay_offset, depth, feedback, flange_delay, invert, mix, speed
+            Table* table = manage(new Table(2, 4)); 
+            // TODO : invert as toggle on top
+            //control(table, "Invert", p_effects_flanger_invert, 0, 1);
+            control(table, "Speed", p_effects_flanger_speed, 0, 1);
+            control(table, "Fb", p_effects_flanger_feedback, 1, 1);
+            control(table, "Delay", p_effects_flanger_flange_delay, 2, 1);
+            control(table, "Mix", p_effects_flanger_mix, 3, 1);
+            return frame("Flanger", p_effects_flanger_bypass, table); 
+        }
+
+        Widget* createDelay() {
+            Table* table = manage(new Table(2, 4));
+            control(table, "Length", p_effects_delay_length, 0, 1);
+            control(table, "Cutoff", p_effects_delay_cutoff, 1, 1);
+            control(table, "Depth", p_effects_delay_depth, 2, 1);
+            control(table, "Mix", p_effects_delay_mix, 3, 1);
+            return frame("Delay", p_effects_delay_bypass, table);
         }
 
         Widget* createReverb() {
-          // damp, mix, roomSize 
+            // TODO : more parameters
+            Table* table = manage(new Table(2, 3));
+            control(table, "Damp", p_effects_reverb_damp, 0, 1);
+            control(table, "Size", p_effects_reverb_roomSize, 1, 1);
+            control(table, "Mix", p_effects_reverb_mix, 2, 1);
+            return frame("Reverb", p_effects_reverb_bypass, table);
         }
-*/
+
         void control(Table* table, const char* label, int port_index, int left, int top) {
             table->attach(*scales[port_index - 3]->get_widget(), left, left + 1, top, top + 1);
             table->attach(*manage(new Label(label)), left, left + 1, top + 1, top + 2);
@@ -294,15 +332,6 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             content->set_col_spacings(5);
             content->set_spacings(2);
 
-            /*
-            Frame* frame = manage(new Frame());
-            frame->set_label_align(0.0f, 0.0f);
-            frame->set_border_width(5);
-            frame->set_label(label);
-            frame->add(*content);
-            frame->set_shadow_type(SHADOW_OUT);
-            */
-            
             Panel* panel = manage(new Panel(label, scales[toggle - 3]->get_widget(), content));
              
             Alignment* alignment = manage(new Alignment(0.0, 0.0, 1.0, 0.0));

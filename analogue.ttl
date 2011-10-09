@@ -135,228 +135,237 @@
     [ a lv2:ControlPort, lv2:InputPort; lv2:index 27; lv2:symbol "amp2_sustain"; lv2:name "sustain";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 1.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 28; lv2:symbol "effects_flanger_bypass"; lv2:name "bypass";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 28; lv2:symbol "effects_delay_bypass"; lv2:name "bypass";
         lv2:minimum 0.000000; lv2:maximum 0.000000; lv2:default 1.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 29; lv2:symbol "effects_flanger_delay_offset"; lv2:name "delay_offset";
-        lv2:minimum 0.000000; lv2:maximum 20.000000; lv2:default 1.000000; ext:step 0.001000 ],
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 29; lv2:symbol "effects_delay_cutoff"; lv2:name "cutoff";
+        lv2:minimum 0.000000; lv2:maximum 10000.000000; lv2:default 200.000000; ext:step 10.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 30; lv2:symbol "effects_flanger_depth"; lv2:name "depth";
-        lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 1.000000; ext:step 0.001000 ],
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 30; lv2:symbol "effects_delay_depth"; lv2:name "depth";
+        lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.500000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 31; lv2:symbol "effects_flanger_feedback"; lv2:name "feedback";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 31; lv2:symbol "effects_delay_length"; lv2:name "length";
+        lv2:minimum 0.000000; lv2:maximum 1000.000000; lv2:default 10.000000; ext:step 1.000000 ],
+
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 32; lv2:symbol "effects_delay_mix"; lv2:name "mix";
+        lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.500000; ext:step 0.010000 ],
+
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 33; lv2:symbol "effects_flanger_bypass"; lv2:name "bypass";
+        lv2:minimum 0.000000; lv2:maximum 0.000000; lv2:default 1.000000; ext:step 1.000000 ],
+
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 34; lv2:symbol "effects_flanger_feedback"; lv2:name "feedback";
         lv2:minimum -0.999000; lv2:maximum 0.999000; lv2:default 0.000000; ext:step 0.001000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 32; lv2:symbol "effects_flanger_flange_delay"; lv2:name "flange_delay";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 35; lv2:symbol "effects_flanger_flange_delay"; lv2:name "flange_delay";
         lv2:minimum 0.000000; lv2:maximum 20.000000; lv2:default 10.000000; ext:step 0.001000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 33; lv2:symbol "effects_flanger_invert"; lv2:name "invert";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 36; lv2:symbol "effects_flanger_invert"; lv2:name "invert";
         lv2:minimum 0.000000; lv2:maximum 0.000000; lv2:default 1.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 34; lv2:symbol "effects_flanger_mix"; lv2:name "mix";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 37; lv2:symbol "effects_flanger_mix"; lv2:name "mix";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.500000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 35; lv2:symbol "effects_flanger_speed"; lv2:name "speed";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 38; lv2:symbol "effects_flanger_speed"; lv2:name "speed";
         lv2:minimum 0.000000; lv2:maximum 10.000000; lv2:default 0.500000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 36; lv2:symbol "effects_reverb_bypass"; lv2:name "bypass";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 39; lv2:symbol "effects_reverb_bypass"; lv2:name "bypass";
         lv2:minimum 0.000000; lv2:maximum 0.000000; lv2:default 1.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 37; lv2:symbol "effects_reverb_damp"; lv2:name "damp";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 40; lv2:symbol "effects_reverb_damp"; lv2:name "damp";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.720000; ext:step 0.025000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 38; lv2:symbol "effects_reverb_mix"; lv2:name "mix";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 41; lv2:symbol "effects_reverb_mix"; lv2:name "mix";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.141000; ext:step 0.025000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 39; lv2:symbol "effects_reverb_roomSize"; lv2:name "roomSize";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 42; lv2:symbol "effects_reverb_roomSize"; lv2:name "roomSize";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.540000; ext:step 0.025000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 40; lv2:symbol "filter1_attack"; lv2:name "attack";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 43; lv2:symbol "filter1_attack"; lv2:name "attack";
         lv2:minimum 0.000000; lv2:maximum 2.000000; lv2:default 0.000000; ext:step 0.005000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 41; lv2:symbol "filter1_bypass"; lv2:name "bypass";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 44; lv2:symbol "filter1_bypass"; lv2:name "bypass";
         lv2:minimum 0.000000; lv2:maximum 0.000000; lv2:default 1.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 42; lv2:symbol "filter1_cutoff"; lv2:name "cutoff";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 45; lv2:symbol "filter1_cutoff"; lv2:name "cutoff";
         lv2:minimum 0.000000; lv2:maximum 5000.000000; lv2:default 440.000000; ext:step 10.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 43; lv2:symbol "filter1_decay"; lv2:name "decay";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 46; lv2:symbol "filter1_decay"; lv2:name "decay";
         lv2:minimum 0.000000; lv2:maximum 4.000000; lv2:default 1.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 44; lv2:symbol "filter1_env_to_f"; lv2:name "env_to_f";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 47; lv2:symbol "filter1_env_to_f"; lv2:name "env_to_f";
         lv2:minimum -12.000000; lv2:maximum 12.000000; lv2:default 0.000000; ext:step 0.100000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 45; lv2:symbol "filter1_env_to_q"; lv2:name "env_to_q";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 48; lv2:symbol "filter1_env_to_q"; lv2:name "env_to_q";
         lv2:minimum -1.000000; lv2:maximum 1.000000; lv2:default 0.000000; ext:step 0.100000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 46; lv2:symbol "filter1_kbd"; lv2:name "kbd";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 49; lv2:symbol "filter1_kbd"; lv2:name "kbd";
         lv2:minimum -12.000000; lv2:maximum 12.000000; lv2:default 1.000000; ext:step 0.100000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 47; lv2:symbol "filter1_lfo_to_f"; lv2:name "lfo_to_f";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 50; lv2:symbol "filter1_lfo_to_f"; lv2:name "lfo_to_f";
         lv2:minimum -12.000000; lv2:maximum 12.000000; lv2:default 0.000000; ext:step 0.100000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 48; lv2:symbol "filter1_lfo_to_q"; lv2:name "lfo_to_q";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 51; lv2:symbol "filter1_lfo_to_q"; lv2:name "lfo_to_q";
         lv2:minimum -1.000000; lv2:maximum 1.000000; lv2:default 0.000000; ext:step 0.100000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 49; lv2:symbol "filter1_q"; lv2:name "q";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 52; lv2:symbol "filter1_q"; lv2:name "q";
         lv2:minimum 0.000000; lv2:maximum 10.000000; lv2:default 0.500000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 50; lv2:symbol "filter1_release"; lv2:name "release";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 53; lv2:symbol "filter1_release"; lv2:name "release";
         lv2:minimum 0.000000; lv2:maximum 4.000000; lv2:default 1.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 51; lv2:symbol "filter1_sustain"; lv2:name "sustain";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 54; lv2:symbol "filter1_sustain"; lv2:name "sustain";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 1.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 52; lv2:symbol "filter1_to_f2"; lv2:name "to_f2";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 55; lv2:symbol "filter1_to_f2"; lv2:name "to_f2";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 53; lv2:symbol "filter1_type"; lv2:name "type";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 56; lv2:symbol "filter1_type"; lv2:name "type";
         lv2:minimum 0.000000; lv2:maximum 3.000000; lv2:default 0.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 54; lv2:symbol "filter2_attack"; lv2:name "attack";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 57; lv2:symbol "filter2_attack"; lv2:name "attack";
         lv2:minimum 0.000000; lv2:maximum 2.000000; lv2:default 0.000000; ext:step 0.005000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 55; lv2:symbol "filter2_bypass"; lv2:name "bypass";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 58; lv2:symbol "filter2_bypass"; lv2:name "bypass";
         lv2:minimum 0.000000; lv2:maximum 0.000000; lv2:default 1.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 56; lv2:symbol "filter2_cutoff"; lv2:name "cutoff";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 59; lv2:symbol "filter2_cutoff"; lv2:name "cutoff";
         lv2:minimum 0.000000; lv2:maximum 5000.000000; lv2:default 440.000000; ext:step 10.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 57; lv2:symbol "filter2_decay"; lv2:name "decay";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 60; lv2:symbol "filter2_decay"; lv2:name "decay";
         lv2:minimum 0.000000; lv2:maximum 4.000000; lv2:default 1.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 58; lv2:symbol "filter2_env_to_f"; lv2:name "env_to_f";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 61; lv2:symbol "filter2_env_to_f"; lv2:name "env_to_f";
         lv2:minimum -12.000000; lv2:maximum 12.000000; lv2:default 0.000000; ext:step 0.100000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 59; lv2:symbol "filter2_env_to_q"; lv2:name "env_to_q";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 62; lv2:symbol "filter2_env_to_q"; lv2:name "env_to_q";
         lv2:minimum -1.000000; lv2:maximum 1.000000; lv2:default 0.000000; ext:step 0.100000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 60; lv2:symbol "filter2_kbd"; lv2:name "kbd";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 63; lv2:symbol "filter2_kbd"; lv2:name "kbd";
         lv2:minimum -12.000000; lv2:maximum 12.000000; lv2:default 1.000000; ext:step 0.100000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 61; lv2:symbol "filter2_lfo_to_f"; lv2:name "lfo_to_f";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 64; lv2:symbol "filter2_lfo_to_f"; lv2:name "lfo_to_f";
         lv2:minimum -12.000000; lv2:maximum 12.000000; lv2:default 0.000000; ext:step 0.100000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 62; lv2:symbol "filter2_lfo_to_q"; lv2:name "lfo_to_q";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 65; lv2:symbol "filter2_lfo_to_q"; lv2:name "lfo_to_q";
         lv2:minimum -1.000000; lv2:maximum 1.000000; lv2:default 0.000000; ext:step 0.100000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 63; lv2:symbol "filter2_q"; lv2:name "q";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 66; lv2:symbol "filter2_q"; lv2:name "q";
         lv2:minimum 0.000000; lv2:maximum 10.000000; lv2:default 0.500000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 64; lv2:symbol "filter2_release"; lv2:name "release";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 67; lv2:symbol "filter2_release"; lv2:name "release";
         lv2:minimum 0.000000; lv2:maximum 4.000000; lv2:default 1.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 65; lv2:symbol "filter2_sustain"; lv2:name "sustain";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 68; lv2:symbol "filter2_sustain"; lv2:name "sustain";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 1.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 66; lv2:symbol "filter2_type"; lv2:name "type";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 69; lv2:symbol "filter2_type"; lv2:name "type";
         lv2:minimum 0.000000; lv2:maximum 3.000000; lv2:default 0.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 67; lv2:symbol "lfo1_delay"; lv2:name "delay";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 70; lv2:symbol "lfo1_delay"; lv2:name "delay";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 68; lv2:symbol "lfo1_fade_in"; lv2:name "fade_in";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 71; lv2:symbol "lfo1_fade_in"; lv2:name "fade_in";
         lv2:minimum 0.000000; lv2:maximum 5.000000; lv2:default 0.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 69; lv2:symbol "lfo1_freq"; lv2:name "freq";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 72; lv2:symbol "lfo1_freq"; lv2:name "freq";
         lv2:minimum 1.000000; lv2:maximum 50.000000; lv2:default 1.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 70; lv2:symbol "lfo1_power"; lv2:name "power";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 73; lv2:symbol "lfo1_power"; lv2:name "power";
         lv2:minimum 0.000000; lv2:maximum 0.000000; lv2:default 1.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 71; lv2:symbol "lfo1_type"; lv2:name "type";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 74; lv2:symbol "lfo1_type"; lv2:name "type";
         lv2:minimum 0.000000; lv2:maximum 4.000000; lv2:default 0.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 72; lv2:symbol "lfo1_width"; lv2:name "width";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 75; lv2:symbol "lfo1_width"; lv2:name "width";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.500000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 73; lv2:symbol "lfo2_delay"; lv2:name "delay";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 76; lv2:symbol "lfo2_delay"; lv2:name "delay";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 74; lv2:symbol "lfo2_fade_in"; lv2:name "fade_in";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 77; lv2:symbol "lfo2_fade_in"; lv2:name "fade_in";
         lv2:minimum 0.000000; lv2:maximum 5.000000; lv2:default 0.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 75; lv2:symbol "lfo2_freq"; lv2:name "freq";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 78; lv2:symbol "lfo2_freq"; lv2:name "freq";
         lv2:minimum 1.000000; lv2:maximum 50.000000; lv2:default 1.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 76; lv2:symbol "lfo2_power"; lv2:name "power";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 79; lv2:symbol "lfo2_power"; lv2:name "power";
         lv2:minimum 0.000000; lv2:maximum 0.000000; lv2:default 1.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 77; lv2:symbol "lfo2_type"; lv2:name "type";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 80; lv2:symbol "lfo2_type"; lv2:name "type";
         lv2:minimum 0.000000; lv2:maximum 4.000000; lv2:default 0.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 78; lv2:symbol "lfo2_width"; lv2:name "width";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 81; lv2:symbol "lfo2_width"; lv2:name "width";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.500000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 79; lv2:symbol "noise_color"; lv2:name "color";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 82; lv2:symbol "noise_color"; lv2:name "color";
         lv2:minimum 200.000000; lv2:maximum 5000.000000; lv2:default 2000.000000; ext:step 50.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 80; lv2:symbol "noise_f1_to_f2"; lv2:name "f1_to_f2";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 83; lv2:symbol "noise_f1_to_f2"; lv2:name "f1_to_f2";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 81; lv2:symbol "noise_level"; lv2:name "level";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 84; lv2:symbol "noise_level"; lv2:name "level";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 82; lv2:symbol "noise_power"; lv2:name "power";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 85; lv2:symbol "noise_power"; lv2:name "power";
         lv2:minimum 0.000000; lv2:maximum 0.000000; lv2:default 1.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 83; lv2:symbol "osc1_f1_to_f2"; lv2:name "f1_to_f2";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 86; lv2:symbol "osc1_f1_to_f2"; lv2:name "f1_to_f2";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 84; lv2:symbol "osc1_finetune"; lv2:name "finetune";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 87; lv2:symbol "osc1_finetune"; lv2:name "finetune";
         lv2:minimum -1.000000; lv2:maximum 1.000000; lv2:default 0.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 85; lv2:symbol "osc1_kbd"; lv2:name "kbd";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 88; lv2:symbol "osc1_kbd"; lv2:name "kbd";
         lv2:minimum -12.000000; lv2:maximum 12.000000; lv2:default 1.000000; ext:step 0.100000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 86; lv2:symbol "osc1_level"; lv2:name "level";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 89; lv2:symbol "osc1_level"; lv2:name "level";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.500000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 87; lv2:symbol "osc1_lfo_to_p"; lv2:name "lfo_to_p";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 90; lv2:symbol "osc1_lfo_to_p"; lv2:name "lfo_to_p";
         lv2:minimum -12.000000; lv2:maximum 12.000000; lv2:default 0.000000; ext:step 0.100000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 88; lv2:symbol "osc1_lfo_to_w"; lv2:name "lfo_to_w";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 91; lv2:symbol "osc1_lfo_to_w"; lv2:name "lfo_to_w";
         lv2:minimum -0.500000; lv2:maximum 0.500000; lv2:default 0.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 89; lv2:symbol "osc1_power"; lv2:name "power";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 92; lv2:symbol "osc1_power"; lv2:name "power";
         lv2:minimum 0.000000; lv2:maximum 0.000000; lv2:default 1.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 90; lv2:symbol "osc1_tune"; lv2:name "tune";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 93; lv2:symbol "osc1_tune"; lv2:name "tune";
         lv2:minimum -24.000000; lv2:maximum 24.000000; lv2:default 0.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 91; lv2:symbol "osc1_type"; lv2:name "type";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 94; lv2:symbol "osc1_type"; lv2:name "type";
         lv2:minimum 0.000000; lv2:maximum 4.000000; lv2:default 0.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 92; lv2:symbol "osc1_width"; lv2:name "width";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 95; lv2:symbol "osc1_width"; lv2:name "width";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.500000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 93; lv2:symbol "osc2_f1_to_f2"; lv2:name "f1_to_f2";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 96; lv2:symbol "osc2_f1_to_f2"; lv2:name "f1_to_f2";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 94; lv2:symbol "osc2_finetune"; lv2:name "finetune";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 97; lv2:symbol "osc2_finetune"; lv2:name "finetune";
         lv2:minimum -1.000000; lv2:maximum 1.000000; lv2:default 0.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 95; lv2:symbol "osc2_kbd"; lv2:name "kbd";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 98; lv2:symbol "osc2_kbd"; lv2:name "kbd";
         lv2:minimum -12.000000; lv2:maximum 12.000000; lv2:default 1.000000; ext:step 0.100000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 96; lv2:symbol "osc2_level"; lv2:name "level";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 99; lv2:symbol "osc2_level"; lv2:name "level";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.500000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 97; lv2:symbol "osc2_lfo_to_p"; lv2:name "lfo_to_p";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 100; lv2:symbol "osc2_lfo_to_p"; lv2:name "lfo_to_p";
         lv2:minimum -12.000000; lv2:maximum 12.000000; lv2:default 0.000000; ext:step 0.100000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 98; lv2:symbol "osc2_lfo_to_w"; lv2:name "lfo_to_w";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 101; lv2:symbol "osc2_lfo_to_w"; lv2:name "lfo_to_w";
         lv2:minimum -0.500000; lv2:maximum 0.500000; lv2:default 0.000000; ext:step 0.010000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 99; lv2:symbol "osc2_power"; lv2:name "power";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 102; lv2:symbol "osc2_power"; lv2:name "power";
         lv2:minimum 0.000000; lv2:maximum 0.000000; lv2:default 1.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 100; lv2:symbol "osc2_tune"; lv2:name "tune";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 103; lv2:symbol "osc2_tune"; lv2:name "tune";
         lv2:minimum -24.000000; lv2:maximum 24.000000; lv2:default 0.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 101; lv2:symbol "osc2_type"; lv2:name "type";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 104; lv2:symbol "osc2_type"; lv2:name "type";
         lv2:minimum 0.000000; lv2:maximum 4.000000; lv2:default 0.000000; ext:step 1.000000 ],
 
-    [ a lv2:ControlPort, lv2:InputPort; lv2:index 102; lv2:symbol "osc2_width"; lv2:name "width";
+    [ a lv2:ControlPort, lv2:InputPort; lv2:index 105; lv2:symbol "osc2_width"; lv2:name "width";
         lv2:minimum 0.000000; lv2:maximum 1.000000; lv2:default 0.500000; ext:step 0.010000 ].
-  
+

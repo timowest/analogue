@@ -11,6 +11,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  */
+import("effect.lib");
 
 import("filter.lib");
 
@@ -27,7 +28,7 @@ with {
 // in : lfo, signal
 filter2(gate, pitch) = vgroup("filter2", (_,(gate : env),_) : filter(pitch) );
 
-filter(pitch, lfo, env) = _ <: select2(checkbox("bypass"), _, reson_filter(
+filter(pitch, lfo, env) = bypass1(checkbox("bypass"), reson_filter(
     type, 
     key2hz(cutoff, kbd_track * (pitch - A4) + (lfo_to_f * lfo) +  (env_to_f * env)), 
     q + (lfo_to_q * lfo) + (env_to_q * env)))

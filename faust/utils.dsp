@@ -36,6 +36,8 @@ with {
 
 normalize(min_val,max_val) = max(min_val) : min(max_val);
 
+bpm = nentry("/h:main/bpm", 120, 40, 280, 1);
+
 A4 = 69.0; // 440 Hz
 
 key2hz(base_freq, x) = base_freq * pow(2.0, x / 12); 
@@ -45,3 +47,4 @@ env = music.adsr(
    hslider("decay", 1, 0, 4, 0.01),
    hslider("sustain", 1, 0, 1, 0.01) * 100,
    hslider("release", 1, 0, 4, 0.01));
+
