@@ -25,9 +25,15 @@ mix2_stereo(ratio, al, ar, bl, br) = mix2(ratio, al, bl), mix2(ratio, ar, br);
 
 multiselect(n,s) = interleave(n,2) <: par(i,n, select2(s));
 
-select4(i,a,b,c,d) = select2(i > 2, select3(i, a, b, c), d);
+select4(i,a,b,c,d) = select2(i > 2, select3(i,a,b,c), d);
 
-select5(i,a,b,c,d,e) = select2(i > 3, select4(i,a, b, c, d), e);
+select5(i,a,b,c,d,e) = select2(i > 3, select4(i,a,b,c,d), e);
+
+select6(i,a,b,c,d,e,f) = select2(i > 2, select3(i,a,b,c), select3(i-2,d,e,f));
+
+select7(i,a,b,c,d,e,f,g) = select2(i > 3, select4(i,a,b,c,d), select3(i-3,e,f,g));
+
+select8(i,a,b,c,d,e,f,g,h) = select2(i > 3, select4(i,a,b,c,d), select4(i-3,e,f,g,h));
 
 fade_in(samples, gate) = select2(samples > 0, gate, fade(gate) ~ _) * _
 with {

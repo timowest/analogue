@@ -28,16 +28,13 @@ knobtest:
 comboboxestest: 
 	g++ -Wall src/comboboxes-test.cpp $(GTKMM) $(PAQ) $(CFLAGS) -Igen/ -o comboboxestest.out
 
-gen:
-	mkdir gen
-
-gen/dsp.cpp: gen
+gen/dsp.cpp:
 	faust -sch -fun -vec -a minimal.cpp faust/analogue-poly.dsp > gen/dsp.cpp
 
-gen/analogue.peg: gen
+gen/analogue.peg:
 	lv2peg analogue.ttl gen/analogue.peg
 
-gen/analogue-meta.h: gen
+gen/analogue-meta.h:
 	python portmeta.py
 
 test: gen/analogue.peg gen/analogue-meta.h gen/dsp.cpp

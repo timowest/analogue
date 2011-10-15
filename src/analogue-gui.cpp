@@ -63,35 +63,23 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             mem_fun(*this, &AnalogueGUI::notify_param_change));
             }*/
 
-            Table* block1 = manage(new Table(4,4));
-            // row 1
+            Table* block1 = manage(new Table(2,4));
             block1->attach(*createOSC1(),    0, 1, 1, 2);
             block1->attach(*createFilter1(), 1, 2, 1, 2); 
             block1->attach(*createAmp1(),    2, 3, 1, 2);
             block1->attach(*createLFO1(),    3, 4, 1, 2);            
-            // row 2
-            block1->attach(*align(createFilter1Env()), 1, 2, 2, 3);
-            block1->attach(*align(createAmp1Env()), 2, 3, 2, 3);      
-            // row 3
-            block1->attach(*createLFO2(),    0, 1, 3, 4);
-            block1->attach(*createOSC2(),    1, 2, 3, 4);
-            block1->attach(*createFilter2(), 2, 3, 3, 4);
-            block1->attach(*createAmp2(),    3, 4, 3, 4);
-            // row 4
-            //block1->attach(*align(createNoise()), 0, 1, 4, 5);
-            block1->attach(*align(createFilter2Env()), 2, 3, 4, 5);
-            block1->attach(*align(createAmp2Env()), 3, 4, 4, 5);      
-
+            block1->attach(*createLFO2(),    0, 1, 2, 3);
+            block1->attach(*createOSC2(),    1, 2, 2, 3);
+            block1->attach(*createFilter2(), 2, 3, 2, 3);
+            block1->attach(*createAmp2(),    3, 4, 2, 3);
             mainBox.pack_start(*align(block1));    
 
-            /*
             HBox* block3 = manage(new HBox());
             block3->pack_start(*createFilter1Env());
             block3->pack_start(*createFilter2Env());
             block3->pack_start(*createAmp1Env());
             block3->pack_start(*createAmp2Env());
             mainBox.pack_start(*align(block3));
-            */
 
             HBox* block4 = manage(new HBox());
             block4->pack_start(*createNoise());
@@ -242,8 +230,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             control(table, "D", p_filter1_decay, 1, 1);
             control(table, "S", p_filter1_sustain, 2, 1);
             control(table, "R", p_filter1_release, 3, 1);
-            //return smallFrame("Filter1 Env", table);
-            return table; 
+            return smallFrame("Filter1 Env", table);
         }
 
         Widget* createFilter2Env() {
@@ -252,8 +239,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             control(table, "D", p_filter2_decay, 1, 1);
             control(table, "S", p_filter2_sustain, 2, 1);
             control(table, "R", p_filter2_release, 3, 1);
-            //return smallFrame("Filter2 Env", table);
-            return table;
+            return smallFrame("Filter2 Env", table);
         }
 
         Widget* createAmp1Env() {
@@ -262,8 +248,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             control(table, "D", p_amp1_decay, 1, 1);
             control(table, "S", p_amp1_sustain, 2, 1);
             control(table, "R", p_amp1_release, 3, 1);
-            //return smallFrame("Amp1 Env", table);
-            return table;
+            return smallFrame("Amp1 Env", table);
         }
 
         Widget* createAmp2Env() {
@@ -272,8 +257,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             control(table, "D", p_amp2_decay, 1, 1);
             control(table, "S", p_amp2_sustain, 2, 1);
             control(table, "R", p_amp2_release, 3, 1);
-            //return smallFrame("Amp2 Env", table);
-            return table;
+            return smallFrame("Amp2 Env", table);
         }
 
         Widget* createFlanger() {
