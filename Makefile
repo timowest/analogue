@@ -1,9 +1,11 @@
 BUNDLE = Analogue.lv2
 INSTALL_DIR = /usr/local/lib/lv2
 ALSA_GTK = `pkg-config --cflags --libs alsa` `pkg-config --cflags --libs gtk+-2.0`
+JACK_GTK = `pkg-config --cflags --libs jack` `pkg-config --cflags --libs gtk+-2.0`
 GTKMM = `pkg-config --cflags --libs gtkmm-2.4`
 PAQ = `pkg-config --cflags --libs paq`
 FAUST = -I/usr/local/lib/faust/
+TESTS = gen/saw.cpp gen/saw2.cpp gen/sin.cpp gen/sin2.cpp gen/square.cpp gen/square2.cpp gen/tri.cpp gen/tri2.cpp
 
 #CFLAGS=-O3 -mtune=native -march=native -mfpmath=sse -ffast-math -ftree-vectorize
 CFLAGS=-mtune=native -march=native -mfpmath=sse -ffast-math -ftree-vectorize  
@@ -40,10 +42,6 @@ gen/analogue.peg: gen
 gen/analogue-meta.h: gen
 	python portmeta.py
 
-test: gen/analogue.peg gen/analogue-meta.h gen/dsp.cpp
-	g++ -Wall src/long-note-test.cpp src/analogue.cpp src/dsp.cpp $(PAQ) $(FAUST) -lm -lsndfile -Igen/ -o test.out
-	./test.out
-
 standalone: 
 	faust -fun -vec -a alsa-gtk.cpp faust/standalone.dsp > gen/standalone.cpp
 	g++ -Wall gen/standalone.cpp  $(ALSA_GTK) $(FAUST) $(CFLAGS) -lm -o standalone.out
@@ -60,12 +58,20 @@ simple:
 	faust -fun -vec -a alsa-gtk.cpp faust/simple.dsp > gen/simple.cpp
 	g++ -Wall gen/simple.cpp  $(ALSA_GTK) $(FAUST) $(CFLAGS) -lm -o simple.out
 
+test2:
+	faust -fun -vec -a alsa-gtk.cpp faust/test2.dsp > gen/test2.cpp
+	g++ -Wall gen/test2.cpp  $(ALSA_GTK) $(FAUST) $(CFLAGS) -lm -o test2.out
+
+gen/%.cpp: test/%-test.dsp
+	faust -a minimal.cpp -cn $(patsubst gen/%.cpp,%,$@)dsp $< > $@
+
+tests: $(TESTS)
+	g++ -Wall -fpermissive test/tests.cpp $(FAUST) -lm -Igen/ -Isrc/ -lsndfile -o tests.out
+	./tests.out
+
 dumpports: gen/dsp.cpp
 	g++ -Wall src/printttl.cpp src/dsp.cpp $(PAQ) $(FAUST) -lm -lsndfile -o dumpports.out
 	./dumpports.out > gen/ports.ttl
-
-#widget:
-#	g++ -Wall src/knob.cpp src/examplewindow.cpp src/main.cpp $(GTKMM) -o widget.out
 
 svg:
 	faust -svg faust/analogue.dsp

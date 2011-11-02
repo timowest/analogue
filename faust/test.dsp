@@ -3,6 +3,8 @@ import("filter.lib");
 import("utils.dsp");
 import("math.lib");
 
+// FILTERS
+
 // reference
 moog_vcf(res,fr) = (+ : seq(i,4,pole(p)) : *(unitygain(p))) ~ *(mk)
 with {
