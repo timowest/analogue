@@ -3,7 +3,8 @@ INSTALL_DIR = /usr/local/lib/lv2
 ALSA_GTK = `pkg-config --cflags --libs alsa` `pkg-config --cflags --libs gtk+-2.0`
 JACK_GTK = `pkg-config --cflags --libs jack` `pkg-config --cflags --libs gtk+-2.0`
 GTKMM = `pkg-config --cflags --libs gtkmm-2.4`
-PAQ = `pkg-config --cflags --libs paq`
+LV2 = `pkg-config --cflags --libs lv2-plugin`
+LV2_GUI = `pkg-config --cflags --libs lv2-gui`
 FAUST = -I/usr/local/lib/faust/
 TESTS = gen/saw.cpp gen/saw2.cpp gen/sin.cpp gen/sin2.cpp gen/square.cpp gen/square2.cpp gen/tri.cpp gen/tri2.cpp
 
@@ -16,19 +17,19 @@ $(BUNDLE): manifest.ttl analogue.ttl Analogue.so AnalogueGUI.so
 	cp $^ $(BUNDLE)
 
 Analogue.so: src/analogue.cpp gen/analogue.peg gen/analogue-meta.h gen/dsp.cpp
-	g++ -shared -Wall -fPIC -DPIC src/analogue.cpp src/dsp.cpp $(PAQ) $(FAUST) $(CFLAGS) -Igen/ -lm -o Analogue.so
+	g++ -shared -Wall -fPIC -DPIC src/analogue.cpp src/dsp.cpp $(LV2) $(FAUST) $(CFLAGS) -Igen/ -lm -o Analogue.so
 
 AnalogueGUI.so: src/analogue-gui.cpp gen/analogue.peg gen/analogue-meta.h
-	g++ -shared -Wall -fPIC -DPIC src/analogue-gui.cpp $(GTKMM) $(PAQ) $(CFLAGS) -Igen/ -o AnalogueGUI.so
+	g++ -shared -Wall -fPIC -DPIC src/analogue-gui.cpp $(GTKMM) $(LV2) $(LV2_GUI) $(CFLAGS) -Igen/ -o AnalogueGUI.so
 
 guitest: src/analogue-gui.cpp gen/analogue.peg gen/analogue-meta.h
-	g++ -Wall src/analogue-gui-test.cpp $(GTKMM) $(PAQ) $(CFLAGS) -Igen/ -o guitest.out
+	g++ -Wall src/analogue-gui-test.cpp $(GTKMM) $(LV2) $(CFLAGS) -Igen/ -o guitest.out
 
 knobtest: 
-	g++ -Wall src/knob-test.cpp $(GTKMM) $(PAQ) $(CFLAGS) -Igen/ -o knobtest.out
+	g++ -Wall src/knob-test.cpp $(GTKMM) $(LV2) $(CFLAGS) -Igen/ -o knobtest.out
 
 comboboxestest: 
-	g++ -Wall src/comboboxes-test.cpp $(GTKMM) $(PAQ) $(CFLAGS) -Igen/ -o comboboxestest.out
+	g++ -Wall src/comboboxes-test.cpp $(GTKMM) $(LV2) $(CFLAGS) -Igen/ -o comboboxestest.out
 
 gen:
 	mkdir gen
