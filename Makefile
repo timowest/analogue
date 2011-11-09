@@ -16,10 +16,10 @@ $(BUNDLE): manifest.ttl analogue.ttl Analogue.so AnalogueGUI.so
 	mkdir $(BUNDLE)
 	cp $^ $(BUNDLE)
 
-Analogue.so: src/analogue.cpp gen/analogue.peg gen/analogue-meta.h gen/dsp.cpp
+Analogue.so: src/analogue.cpp gen gen/analogue.peg gen/analogue-meta.h gen/dsp.cpp
 	g++ -shared -Wall -fPIC -DPIC src/analogue.cpp src/dsp.cpp $(LV2) $(FAUST) $(CFLAGS) -Igen/ -lm -o Analogue.so
 
-AnalogueGUI.so: src/analogue-gui.cpp gen/analogue.peg gen/analogue-meta.h
+AnalogueGUI.so: src/analogue-gui.cpp gen gen/analogue.peg gen/analogue-meta.h
 	g++ -shared -Wall -fPIC -DPIC src/analogue-gui.cpp $(GTKMM) $(LV2) $(LV2_GUI) $(CFLAGS) -Igen/ -o AnalogueGUI.so
 
 guitest: src/analogue-gui.cpp gen/analogue.peg gen/analogue-meta.h
@@ -35,7 +35,7 @@ gen:
 	mkdir gen
 
 gen/dsp.cpp: gen
-	faust -sch -fun -vec -a minimal.cpp faust/analogue-poly.dsp > gen/dsp.cpp
+	faust -fun -vec -a minimal.cpp faust/analogue-poly.dsp > gen/dsp.cpp
 
 gen/analogue.peg: gen
 	lv2peg analogue.ttl gen/analogue.peg

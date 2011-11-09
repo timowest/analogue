@@ -2,7 +2,7 @@
 #define ANALOGUE_COMMON_H
 
 #define NOUTS   2             //number of outputs
-#define NVOICES 16            //max polyphony
+#define NVOICES 8             //max polyphony
 #define SILENCE 0.0001f       //voice choking
 #define CONTROL_PORT_OFFSET 3 //number of non-control ports
 

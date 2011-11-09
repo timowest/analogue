@@ -28,7 +28,7 @@ with {
 main_out = nentry("/h:amp/output", 1, 0, 1, 0.01); // TODO in dB
 
 // TODO : effects
-process = par(i, 16, voice(i)) :> (_,_,_,_) : effects :> (main_out * _, main_out * _);
+process = par(i, 8, voice(i)) :> (_,_,_,_) : effects :> (main_out * _, main_out * _);
 
 
 

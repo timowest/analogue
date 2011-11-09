@@ -27,7 +27,7 @@ Analogue::Analogue(double r) : LV2::Plugin<Analogue, LV2::URIMap<true> >(p_n_por
     //pitchBend = synthUI->getZone("pitchBend");
     //breathControl = synthUI->getZone("breathControl");
 
-    char buffer[10];
+    char buffer[32];
     for (int i = 0; i < NVOICES; i++) {
         sprintf(buffer, "midi_pitch%d", i);
         pitch[i] = synthUI->getZone(buffer);
@@ -45,6 +45,8 @@ Analogue::Analogue(double r) : LV2::Plugin<Analogue, LV2::URIMap<true> >(p_n_por
             std::cout << "No zone for " << p_port_meta[i].symbol << std::endl;
         }
     }
+
+    std::cout << "ready" <<std::endl;
 }
 
 Analogue::~Analogue() {
@@ -93,6 +95,8 @@ void Analogue::off(unsigned char key, unsigned char velo) {
             return;
         }
     }
+
+    std::cout << "No active voice for " << (int)key << std::endl;
 }
 
 void Analogue::render(uint32_t from, uint32_t to) {

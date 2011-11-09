@@ -18,6 +18,8 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
     public:
 
         AnalogueGUI(const std::string& URI) {
+            std::cout << "starting GUI" <<std::endl;
+
             int control_ports = p_n_ports - 3;
 
             //initialize sliders
@@ -50,8 +52,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
                     mem_fun(*scales[i], &Changeable::get_value));
                 slot<void> slot2 = compose(bind<0>(mem_fun(*this, &AnalogueGUI::change_status_bar), i + 3),
                     mem_fun(*scales[i], &Changeable::get_value));
-                //scales[i]->signal_value_changed().connect(slot1);
-                //scales[i]->signal_value_changed().connect(slot2);
+                scales[i]->connect(slot1);
                 if (!isOSCType(i) && !isFilterType(i) && !isToggle(i)) {
                     scales[i]->connect(slot2);
                 }                
@@ -97,6 +98,8 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
             mainBox.pack_end(statusbar);
 
             add(*align(&mainBox));
+
+            std::cout << "GUI ready" <<std::endl;
         }
 
         Widget* createOSC1() {
@@ -387,7 +390,7 @@ class AnalogueGUI : public LV2::GUI<AnalogueGUI, LV2::URIMap<true>, LV2::WriteMI
     protected:
         VBox mainBox;
         Statusbar statusbar;
-        char statusBarText[40];          
+        char statusBarText[100];          
 
         //Knob *scales[p_n_ports - 3];
         Changeable *scales[p_n_ports - 3];
